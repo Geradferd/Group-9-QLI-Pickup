@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.4" />
+  </ItemGroup>
+
+  <Target Name="BuildClient" BeforeTargets="Publish">
+    <Exec WorkingDirectory="..\Client" Command="npm ci" />
+    <Exec WorkingDirectory="..\Client" Command="npm run build" />
+    <RemoveDir Directories="wwwroot" />
+    <MakeDir Directories="wwwroot" />
+    <Exec Command="cmd /c xcopy /E /I /Y ..\Client\dist\* wwwroot\" Condition="'$(OS)' == 'Windows_NT'" />
+    <Exec Command="bash -c &quot;cp -R ../Client/dist/* wwwroot/&quot;" Condition="'$(OS)' != 'Windows_NT'" />
+  </Target>
+
+</Project>

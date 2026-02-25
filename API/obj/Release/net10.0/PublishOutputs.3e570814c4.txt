@@ -1,0 +1,12 @@
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/Api
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/appsettings.Development.json
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/appsettings.json
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/Api.dll
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/Api.deps.json
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/Api.runtimeconfig.json
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/Api.pdb
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/Microsoft.AspNetCore.OpenApi.dll
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/Microsoft.OpenApi.dll
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/Swashbuckle.AspNetCore.Swagger.dll
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/balockay/Group-9-QLI-Pickup/API/bin/Release/net10.0/publish/Swashbuckle.AspNetCore.SwaggerUI.dll
