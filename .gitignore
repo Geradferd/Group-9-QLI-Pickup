@@ -1,0 +1,15 @@
+## .NET
+bin/
+obj/
+
+## Node
+node_modules/
+dist/
+
+## IDE
+.vs/
+.vscode/
+
+## Environment
+appsettings.Development.json
+*.user
