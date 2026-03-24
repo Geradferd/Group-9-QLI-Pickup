@@ -38,6 +38,7 @@ public class Calender
 		}
 	}
 
+	// get the link of a given timePeriod from a info list string
 	public string[] getLink(List<string> info, List<string> timePeriod)
 	{
 		List<string> testPeriod = new List<string>();
@@ -51,6 +52,7 @@ public class Calender
 		return null;
 	}
 
+	// go from the hour.minute string to a time string in PM and AM
 	public string[] clockTime(string[] strTime)
 	{
 		float time = float.Parse(strTime);
