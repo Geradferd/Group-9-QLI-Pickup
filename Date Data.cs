@@ -4,7 +4,7 @@ using System.Linq;
 
 public class Calender
 {
-	// float year.month, string[] ("startTime hour.minute", "endTime hour.minute" "link", ...)
+	/// float year.month, string[] ("startTime hour.minute", "endTime hour.minute" "link", ...)
 	Dictionary<float, List<string>> cal = new Dictionary<float, List<string>>();
 
 	public Dictionary<float, float> getTimesPeriods(List<string> info)
@@ -20,7 +20,7 @@ public class Calender
 		return timePeriods;
 	}
 
-	// Get a list of time periods in list string
+	/// Get a list of time periods in list string
 	public List<string> orderedTimePeriods(Dinctionary<float, float>  timePeriods)
 	{
 		List<float> periods = new List<float>();
@@ -38,7 +38,7 @@ public class Calender
 		}
 	}
 
-	// get the link of a given timePeriod from a info list string
+	/// get the link of a given timePeriod from a info list string
 	public string[] getLink(List<string> info, List<string> timePeriod)
 	{
 		List<string> testPeriod = new List<string>();
@@ -52,7 +52,7 @@ public class Calender
 		return null;
 	}
 
-	// go from the hour.minute string to a time string in PM and AM
+	/// go from the hour.minute string to a time string in PM and AM
 	public string[] clockTime(string[] strTime)
 	{
 		float time = float.Parse(strTime);
