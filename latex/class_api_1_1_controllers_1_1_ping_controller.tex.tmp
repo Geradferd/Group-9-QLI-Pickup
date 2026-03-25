@@ -1,0 +1,21 @@
+\doxysection{Api.\+Controllers.\+Ping\+Controller Class Reference}
+\hypertarget{class_api_1_1_controllers_1_1_ping_controller}{}\label{class_api_1_1_controllers_1_1_ping_controller}\index{Api.Controllers.PingController@{Api.Controllers.PingController}}
+
+
+Inheritance diagram for Api.\+Controllers.\+Ping\+Controller:\+
+% FIG 0
+
+
+Collaboration diagram for Api.\+Controllers.\+Ping\+Controller:\+
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_api_1_1_controllers_1_1_ping_controller_a0a5ff93d816f09658d56ad212a70164c}\label{class_api_1_1_controllers_1_1_ping_controller_a0a5ff93d816f09658d56ad212a70164c} 
+IAction\+Result {\bfseries Get} ()
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+API/\+\+Controllers/\+Ping\+Controller.\+cs\end{DoxyCompactItemize}
