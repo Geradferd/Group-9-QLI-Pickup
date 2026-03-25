@@ -1,0 +1,63 @@
+\chapter{Group-\/9-\/\+QLI-\/\+Pickup }
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{Group-\/9-\/QLI-\/Pickup@{Group-\/9-\/QLI-\/Pickup}}
+\label{md__r_e_a_d_m_e_autotoc_md3}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md3}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysection{\texorpdfstring{What is this application?}{What is this application?}}\label{md__r_e_a_d_m_e_autotoc_md4}
+QLIFT is a pickup coordination system for QLI (Quality Living, Inc.) that helps manage transportation scheduling between clients and drivers.\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysection{\texorpdfstring{How to use}{How to use}}\label{md__r_e_a_d_m_e_autotoc_md5}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md6}{}\doxysubsection{\texorpdfstring{Development Mode}{Development Mode}}\label{md__r_e_a_d_m_e_autotoc_md6}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Start the API (Backend)}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ API}
+\DoxyCodeLine{dotnet\ watch\ run}
+
+\end{DoxyCode}
+ API runs on {\ttfamily \href{http://localhost:5270}{\texttt{http:\+/\+/\+localhost:\+5270}}}
+\item {\bfseries{Start the React App (Frontend)}} -\/ in a separate terminal 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ Client}
+\DoxyCodeLine{npm\ install}
+\DoxyCodeLine{npm\ run\ dev}
+
+\end{DoxyCode}
+ Frontend runs on {\ttfamily \href{http://localhost:5173}{\texttt{http:\+/\+/\+localhost:\+5173}}}
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_autotoc_md7}{}\doxysubsection{\texorpdfstring{Production Mode}{Production Mode}}\label{md__r_e_a_d_m_e_autotoc_md7}
+
+\begin{DoxyEnumerate}
+\item Build the React app:\+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ Client}
+\DoxyCodeLine{npm\ run\ build}
+
+\end{DoxyCode}
+
+\item Copy the build to the API:\+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir\ -\/p\ ../API/wwwroot}
+\DoxyCodeLine{cp\ -\/R\ dist/*\ ../API/wwwroot/}
+
+\end{DoxyCode}
+
+\item Run the API (serves both frontend and backend):\+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ ../API}
+\DoxyCodeLine{dotnet\ run}
+
+\end{DoxyCode}
+ Access the app at {\ttfamily \href{http://localhost:5270}{\texttt{http:\+/\+/\+localhost:\+5270}}}
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_autotoc_md8}{}\doxysection{\texorpdfstring{Release Notes}{Release Notes}}\label{md__r_e_a_d_m_e_autotoc_md8}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md9}{}\doxysubsection{\texorpdfstring{Current Submission -\/ Project Setup}{Current Submission -\/ Project Setup}}\label{md__r_e_a_d_m_e_autotoc_md9}
+{\bfseries{What\textquotesingle{}s working:\+}}
+\begin{DoxyItemize}
+\item ASP.\+NET Core API with controller support
+\item React + Type\+Script frontend
+\item API-\/frontend communication (CORS configured)
+\item Swagger API documentation
+\item Health check endpoint ({\ttfamily /\+api/\+ping})
+\item Development environment with hot reload
+\item Production build and deployment setup
+\end{DoxyItemize}
+
+{\bfseries{Note:\+}} This submission focuses on establishing the project infrastructure and ensuring the frontend and backend can communicate properly. Core features for pickup coordination will be implemented in future milestones.\hypertarget{md__r_e_a_d_m_e_autotoc_md10}{}\doxysection{\texorpdfstring{Branches}{Branches}}\label{md__r_e_a_d_m_e_autotoc_md10}
+Currently all code is in the {\bfseries{main}} branch. 
