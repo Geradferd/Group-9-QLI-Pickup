@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-namespace Api.Models
+namespace Api.Models;
 
 //Rider Table in DB
 
@@ -12,7 +12,7 @@ public class Rider
 
     [Required]
     [MaxLength(100)]
-    public string FirstName {get; set;} = string.Empty
+    public string FirstName {get; set;} = string.Empty;
 
     [MaxLength(20)]
     public string? Phone {get; set;} //optional
