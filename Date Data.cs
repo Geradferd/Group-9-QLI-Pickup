@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 public class Calender
 {
@@ -24,19 +25,27 @@ public class Calender
 	// Get a list of time periods in list string
 	public List<string> orderedTimePeriods(Dinctionary<float, float>  timePeriods)
 	{
-		List<float> periods = new List<float>();
-		int i;
+		Dictionary<float, float> periods = new Dictionary<float, float>();
+		List<float> startTimes = new List<float>();
 		foreach (KeyValuePair<float, float> period in timePeriods) {
-			i = 0;
-			if (periods.count == 0) {
-				periods[0] = 
-			}
-			else {
-				while (i < periods.count) {
-					if 
+			startTimes.Add(startTimes.Key);
+		}
+		int i;
+		float minTime;
+		while (periods.Count < timePeriods.Count) {
+			minTime = startTimes.Min();
+			foreach (KeyValuePair<float, float> period in timePeriods) {
+				if (period.Key == minTime) {
+					periods[period.Key] = period.Value;
+					startTimes.Remove(minTime);
 				}
 			}
 		}
+		List<string> orderedPeriods = new List<string>();
+		foreach (KeyValuePair<float, float> period in periods) {
+			orderedPeriods.Add($"{clockTime(period.Key.ToString())} {clockTime(period.Value.ToString())}");
+		}
+		return orderedPeriods;
 	}
 
 	// Find the link given a time period inside of the info list string
@@ -58,12 +67,12 @@ public class Calender
 	{
 		float time = float.Parse(strTime);
 		int hours = (int)time;
-		int minutes = (int)((time - (float)(int)time)*100)
-		if (int(hours/12) == 0) {
+		int minutes = (int)((time - (float)(int)time)*100);
+		if ((int)(hours/12) == 0) {
 			return $"A.M. {hours}:{minutes}";
 		}
-		else if (int(hours/12) == 1) {
-			return $"P.M. {hours-12}{minutes}";
+		else if ((int)(hours/12) == 1) {
+			return $"P.M. {hours-12}:{minutes}";
 		}
 	}
 }
