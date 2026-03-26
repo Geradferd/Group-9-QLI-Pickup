@@ -1,0 +1,37 @@
+name: Deploy Doxygen Documentation
+
+on:
+  push:
+    branches:
+      - main  # Trigger whenever you push to the 'main' branch
+
+permissions:
+  contents: write  # Allows the action to push to your gh-pages branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Doxygen and LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz texlive-full
+
+      - name: Run Doxygen
+        run: doxygen Doxyfile  # Assumes your config file is named 'Doxyfile'
+
+      - name: Compile LaTeX to PDF
+        run: |
+          cd latex
+          make
+          mv refman.pdf ../doxygen_manual.pdf
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./html  # Deploys your HTML folder to the website
+          force_orphan: true

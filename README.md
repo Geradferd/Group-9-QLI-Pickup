@@ -8,6 +8,20 @@ QLIFT is a pickup coordination system for QLI (Quality Living, Inc.) that helps 
 
 ### Development Mode
 
+### MySQL Startup
+1. Log into MySQL and create the database:
+```sql
+   CREATE DATABASE qlipickup;
+```
+2.  Open `API/appsettings.json` and replace the password with your local MySQL root password
+3.  Run the backend:
+```bash
+   cd API
+   dotnet restore
+   dotnet ef database update
+   dotnet run
+```
+
 1. **Start the API (Backend)**
    ```bash
    cd API
@@ -43,6 +57,7 @@ QLIFT is a pickup coordination system for QLI (Quality Living, Inc.) that helps 
    dotnet run
    ```
    Access the app at `http://localhost:5270`
+   Visit `http://localhost:5270/swagger` to test the API endpoints
 
 ## Release Notes
 
