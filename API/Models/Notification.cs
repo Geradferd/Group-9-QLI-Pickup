@@ -51,8 +51,7 @@ public class Notification
 
     // Related trip - nullable (not all notifications are trip-related)
     public int? TripId { get; set; }
-    // Uncomment when Trip model is created:
-    // public Trip? Trip { get; set; }
+    public Trip? Trip { get; set; }
 
     // Notification metadata
     [Required]
