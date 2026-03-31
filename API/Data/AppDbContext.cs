@@ -14,6 +14,8 @@ public class AppDbContext : DbContext
     }
     //represents table in database
 
+    public DbSet<Trip> Trips { get; set; } = null!;
+    public DbSet<TransportationType> TransportationTypes { get; set; } = null!;
     public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating (ModelBuilder modelBuilder)
@@ -29,6 +31,13 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>()
             .Property(u => u.Role)
             .HasConversion<string>();
+        
+        // Trip/TransportationType Relationship
+        modelBuilder.Entity<Trip>()
+            .HasOne(t => t.TransportationType)
+            .WithMany(tt => tt.Trips)
+            .HasForeignKey(t => t.TransportationTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
 
     }
 
