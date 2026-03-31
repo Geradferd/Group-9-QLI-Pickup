@@ -70,7 +70,7 @@ public class Notification
 
     // Delivery tracking
     [Required]
-    public DeliveryStatus Status { get; set; } = DeliveryStatus.Pending;
+    public DeliveryStatus DeliveryStatus { get; set; } = DeliveryStatus.Pending;
 
     // Timestamps
     public DateTime? SentAt { get; set; } // When notification was sent
