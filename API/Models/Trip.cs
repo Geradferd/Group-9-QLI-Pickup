@@ -30,8 +30,7 @@ public class Trip
 
     // Status
     [Required]
-    [MaxLength(50)]
-    public string Status { get; set; } = TripStatus.Pending;
+    public TripStatus Status { get; set; } = TripStatus.Pending;
 
     // Pickup & Destination
     [Required]
@@ -66,6 +65,10 @@ public class Trip
 
     // Soft Delete
     public bool IsDeleted { get; set; } = false;
+
+    // Date the trip was created and updated.
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     // Navigation Collections
     public ICollection<TripStatusHistory> StatusHistory { get; set; } = new List<TripStatusHistory>();
