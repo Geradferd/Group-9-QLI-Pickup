@@ -51,8 +51,7 @@ public class Notification
 
     // Related trip - nullable (not all notifications are trip-related)
     public int? TripId { get; set; }
-    // Uncomment when Trip model is created:
-    // public Trip? Trip { get; set; }
+    public Trip? Trip { get; set; }
 
     // Notification metadata
     [Required]
@@ -71,7 +70,7 @@ public class Notification
 
     // Delivery tracking
     [Required]
-    public DeliveryStatus Status { get; set; } = DeliveryStatus.Pending;
+    public DeliveryStatus DeliveryStatus { get; set; } = DeliveryStatus.Pending;
 
     // Timestamps
     public DateTime? SentAt { get; set; } // When notification was sent

@@ -14,7 +14,11 @@ public class AppDbContext : DbContext
     }
     //represents table in database
 
+    public DbSet<Trip> Trips { get; set; } = null!;
+    public DbSet<TransportationType> TransportationTypes { get; set; } = null!;
     public DbSet<User> Users { get; set; }
+    public DbSet<Trip> Trips { get; set; }
+    public DbSet<TripStatusHistory> TripStatusHistories { get; set; }
 
     protected override void OnModelCreating (ModelBuilder modelBuilder)
     {
@@ -29,7 +33,39 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>()
             .Property(u => u.Role)
             .HasConversion<string>();
+        
+        // Trip/TransportationType Relationship
+        modelBuilder.Entity<Trip>()
+            .HasOne(t => t.TransportationType)
+            .WithMany(tt => tt.Trips)
+            .HasForeignKey(t => t.TransportationTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
 
+        // Trip entities
+        modelBuilder.Entity<Trip>()
+            .Property(t => t.Status)
+            .HasConversion<string>();
+
+        // Trip status history relations and in-database enum storage
+        modelBuilder.Entity<TripStatusHistory>()
+            .Property(h => h.FromStatus)
+            .HasConversion<string>();
+
+        modelBuilder.Entity<TripStatusHistory>()
+            .Property(h => h.ToStatus)
+            .HasConversion<string>();
+
+        modelBuilder.Entity<TripStatusHistory>()
+            .HasOne(h => h.Trip)
+            .WithMany(t => t.StatusHistory)
+            .HasForeignKey(h => h.TripId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<TripStatusHistory>()
+            .HasOne(h => h.ChangedByUser)
+            .WithMany()
+            .HasForeignKey(h => h.ChangedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 
 }
