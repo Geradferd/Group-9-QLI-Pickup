@@ -69,6 +69,6 @@ public class Trip
 
     // Navigation Collections
     public ICollection<TripStatusHistory> StatusHistory { get; set; } = new List<TripStatusHistory>();
-    public ICollection<Gps_Track_Point> TrackPoints { get; set; } = new List<GpsTrackPoint>();
+    public ICollection<Gps_Track_Point> TrackPoints { get; set; } = new List<Gps_Track_Point>();
     public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 }
