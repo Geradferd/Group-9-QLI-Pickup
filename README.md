@@ -230,4 +230,8 @@ Complete CRUD API for managing transportation type categories:
 
 ## Branches
 
-Currently all code is in the **main** branch. No additional branches at this time.
+ - Blake-demo (Notifications API Endpoints)
+ - Gavin-demo (Trips and Trip Action API Endpoints)
+ - Gerald-demo (Hours/Schedule and Reports API Endpoints)
+ - Angel-demo (Riders, Drivers, and Vehicles API Endpoints)
+ - Matthew-demo (GPS Tracking API Endpoint)
