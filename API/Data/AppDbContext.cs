@@ -3,69 +3,71 @@ using Api.Models;
 
 namespace Api.Data;
 
-//class for database and C# code to connect
-//Handles all communication
-
 public class AppDbContext : DbContext
 {
-    //constructor to receive database settings
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
-    //represents table in database
 
-    public DbSet<Trip> Trips { get; set; } = null!;
+    // Tables
+    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Rider> Riders { get; set; } = null!;
+    public DbSet<Driver> Drivers { get; set; } = null!;
+    public DbSet<Vehicle> Vehicles { get; set; } = null!;
     public DbSet<TransportationType> TransportationTypes { get; set; } = null!;
-    public DbSet<User> Users { get; set; }
-    public DbSet<Trip> Trips { get; set; }
-    public DbSet<TripStatusHistory> TripStatusHistories { get; set; }
+    public DbSet<Trip> Trips { get; set; } = null!;
+    public DbSet<TripStatusHistory> TripStatusHistories { get; set; } = null!;
 
-    protected override void OnModelCreating (ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        //no two users can have same email
+        // User
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
-
-        //stores the roles inside the DB
         modelBuilder.Entity<User>()
             .Property(u => u.Role)
             .HasConversion<string>();
-        
-        // Trip/TransportationType Relationship
+
+        // Trip
+        modelBuilder.Entity<Trip>()
+            .Property(t => t.Status)
+            .HasConversion<string>();
         modelBuilder.Entity<Trip>()
             .HasOne(t => t.TransportationType)
             .WithMany(tt => tt.Trips)
             .HasForeignKey(t => t.TransportationTypeId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        // Trip entities
         modelBuilder.Entity<Trip>()
-            .Property(t => t.Status)
-            .HasConversion<string>();
+            .HasOne(t => t.RequestedByUser)
+            .WithMany()
+            .HasForeignKey(t => t.RequestedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Trip>()
+            .HasOne(t => t.ApprovedByUser)
+            .WithMany()
+            .HasForeignKey(t => t.ApprovedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-        // Trip status history relations and in-database enum storage
+        // TripStatusHistory
         modelBuilder.Entity<TripStatusHistory>()
             .Property(h => h.FromStatus)
             .HasConversion<string>();
-
         modelBuilder.Entity<TripStatusHistory>()
             .Property(h => h.ToStatus)
             .HasConversion<string>();
-
         modelBuilder.Entity<TripStatusHistory>()
             .HasOne(h => h.Trip)
             .WithMany(t => t.StatusHistory)
             .HasForeignKey(h => h.TripId)
             .OnDelete(DeleteBehavior.Restrict);
-
         modelBuilder.Entity<TripStatusHistory>()
             .HasOne(h => h.ChangedByUser)
             .WithMany()
             .HasForeignKey(h => h.ChangedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
     }
-
 }
+
+
