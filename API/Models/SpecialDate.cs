@@ -18,5 +18,5 @@ public class SpecialDate
 
     public bool closedFlag { get; set; } = false; /// rather or not the activity if available
 
-    public string description { get; set; } = string.Empty /// descirption for the special date
+    public string description { get; set; } = string.Empty; /// descirption for the special date
 }   

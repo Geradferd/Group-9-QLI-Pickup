@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Api.Services;
 
-public class Class1
+namespace Api.Controllers;
+
+// Placeholder for Driver Controller
+[ApiController]
+[Route("api/[controller]")]
+public class DriverController : ControllerBase
 {
-	public Class1()
-	{
-	}
+	// TODO: Implement driver endpoints
 }

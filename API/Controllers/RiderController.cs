@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Api.Services;
 
-public class Class1
+namespace Api.Controllers;
+
+// Placeholder for Rider Controller
+[ApiController]
+[Route("api/[controller]")]
+public class RiderController : ControllerBase
 {
-	public Class1()
-	{
-	}
+	// TODO: Implement rider endpoints
 }
