@@ -5,6 +5,8 @@ namespace Api.Models;
 /// Work in progress under Gerald Pruitt
 public class RecurrenceRule
 {
+    public int Id { get; set; }
+
     [Required]
     [MaxLength(100)]
     public string Frequency {get; set;} = string.Empty; /// how often something happens
