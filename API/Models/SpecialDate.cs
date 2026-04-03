@@ -7,6 +7,8 @@ namespace Api.Models;
 /// data model for the hours that qli pickup is available for
 public class SpecialDate
 {
+    public int Id { get; set; }
+    
     [MaxLength(100)]
     public string date { get; set; } = string.Empty; /// date for a activity
 
