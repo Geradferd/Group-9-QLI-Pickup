@@ -8,7 +8,7 @@ namespace Api.Models;
 public class SpecialDate
 {
     public int Id { get; set; }
-
+    
     [MaxLength(100)]
     public string date { get; set; } = string.Empty; /// date for a activity
 
