@@ -20,7 +20,7 @@ public class ScheduleService
     }
 
     /// Get or Update existing operating hours
-    public async Task<ScheduleResponse?> UpdateAsync(int Id, UpdateScheduleRequest request)
+    public async Task<ScheduleResponse?> UpdateOperatingHours(int Id, UpdateScheduleRequest request)
     {
         var type = await _context.ScheduleTypes
             .FirstOrDefaultAsync(t => t.Id == Id && !t.IsDeleted);
@@ -36,6 +36,52 @@ public class ScheduleService
         await _context.SaveChangesAsync();
 
         return MapToResponse(type);
+    }
+
+        /// Get or Update existing special dates
+    public async Task<ScheduleResponse?> UpdateSpecialDates(int Id, UpdateScheduleRequest request)
+    {
+        var type = await _context.ScheduleTypes
+            .FirstOrDefaultAsync(t => t.Id == Id && !t.IsDeleted);
+
+        if (type == null)
+            return null;
+
+            Id = type.Id;
+            date = type.date;
+            specialStartTime = type.specialStartTime;
+            closedFlag = type.closedFlag;
+            description = type.description;
+
+        await _context.SaveChangesAsync();
+
+        return MapToResponse(type);
+    }
+
+        // Soft delete a special date type
+    public async Task<bool> SoftDeleteAsync(int id)
+    {
+        var type = await _context.TransportationTypes
+            .FirstOrDefaultAsync(t => t.Id == id && !t.IsDeleted);
+
+        if (type == null)
+            return false;
+
+        // Check if any active trips are using this type
+        var hasActiveTrips = await _context.Trips
+            .AnyAsync(t => t.TransportationTypeId == id && !t.Status.Equals("Cancelled"));
+
+        if (hasActiveTrips)
+        {
+            // Don't delete if there are active trips using this type
+            return false;
+        }
+
+        type.closedFlag = true; /// Mark as closed
+
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 
     // Helper method to map entity to response DTO
