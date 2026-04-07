@@ -42,6 +42,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 //custom authservive so it can be controlled
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<TransportationTypeService>();
+builder.Services.AddScoped<TripService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
