@@ -1,0 +1,81 @@
+### GPS Tracking API Tests
+### Base URL: http://localhost:5270
+
+### Step 1: Register a driver account
+POST http://localhost:5270/api/auth/register-driver
+Content-Type: application/json
+
+{
+  "email": "driver1@example.com",
+  "password": "TestPassword123!",
+  "displayName": "John Driver"
+}
+
+### Step 2: Login to get JWT token
+POST http://localhost:5270/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "driver1@example.com",
+  "password": "TestPassword123!"
+}
+
+@authToken = YOUR_JWT_TOKEN_HERE
+
+### Step 3: Post a GPS breadcrumb (driver location)
+POST http://localhost:5270/api/gps/breadcrumb
+Content-Type: application/json
+Authorization: Bearer @authToken
+
+{
+  "latitude": 40.7128,
+  "longitude": -74.0060,
+  "speed": 25.5,
+  "heading": 180.0,
+  "accuracy": 5.0,
+  "deviceTimestamp": "2026-04-07T10:30:00Z",
+  "tripId": null
+}
+
+### Step 4: Post another GPS breadcrumb with a trip
+POST http://localhost:5270/api/gps/breadcrumb
+Content-Type: application/json
+Authorization: Bearer @authToken
+
+{
+  "latitude": 40.7150,
+  "longitude": -74.0080,
+  "speed": 30.0,
+  "heading": 180.0,
+  "accuracy": 4.5,
+  "deviceTimestamp": "2026-04-07T10:35:00Z",
+  "tripId": 1
+}
+
+### Step 5: Get trip breadcrumbs (GPS history for a specific trip)
+GET http://localhost:5270/api/gps/trip/1/breadcrumbs
+Authorization: Bearer @authToken
+
+### Step 6: Get driver's latest position (for driver ID 1)
+GET http://localhost:5270/api/gps/driver/1/latest
+Authorization: Bearer @authToken
+
+### Step 7: Get all active drivers' positions
+GET http://localhost:5270/api/gps/drivers/active
+Authorization: Bearer @authToken
+
+### Step 8: Get all active drivers' positions (with custom time threshold of 60 minutes)
+GET http://localhost:5270/api/gps/drivers/active?minutesThreshold=60
+Authorization: Bearer @authToken
+
+### SignalR WebSocket Testing
+### Connect to: ws://localhost:5270/gps-hub?access_token=YOUR_JWT_TOKEN_HERE
+
+### After connecting to WebSocket, send this message to broadcast driver location:
+### {"type": 1, "target": "BroadcastDriverLocation", "arguments": [{ "driverId": 1, "driverName": "John Driver", "latitude": 40.7128, "longitude": -74.0060, "speed": 25.5, "heading": 180.0, "tripId": null, "timestamp": "2026-04-07T10:30:00Z" }]}
+
+### Subscribe to specific driver updates:
+### {"type": 1, "target": "SubscribeToDriver", "arguments": [1]}
+
+### Receive driver location updates (server sends):
+### {"type": 1, "target": "DriverLocationUpdated", "arguments": [{ "driverId": 1, "driverName": "John Driver", "latitude": 40.7128, "longitude": -74.0060, "speed": 25.5, "heading": 180.0, "tripId": null, "timestamp": "2026-04-07T10:30:00Z" }]}
