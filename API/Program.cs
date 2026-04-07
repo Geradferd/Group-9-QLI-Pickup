@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-//database connection to myswl from appsettings.json
+//database connection to mysql from appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -40,9 +40,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
         };
     });
-//custom authservive so it can be controlled
+
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<TransportationTypeService>();
+builder.Services.AddScoped<RiderService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -53,21 +55,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
-// Only use HTTPS redirection in production
 if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-// Serve React build from wwwroot (production)
 app.UseDefaultFiles();
 app.UseStaticFiles();
-
-// SPA fallback so React Router works
 app.MapFallbackToFile("index.html");
 
 app.Run();
