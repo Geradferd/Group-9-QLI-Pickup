@@ -44,6 +44,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<TransportationTypeService>();
 builder.Services.AddScoped<RiderService>();
+builder.Services.AddScoped<DriverService>();
+builder.Services.AddScoped<VehicleService>();
 
 var app = builder.Build();
 
