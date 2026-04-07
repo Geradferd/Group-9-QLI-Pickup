@@ -1,7 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Api.DTOs;
-using Api.Models;
-using Api.Services;
 
 namespace Api.Controllers;
 
@@ -9,7 +6,5 @@ namespace Api.Controllers;
 [Route("api/[controller]")]
 public class ReportsController : ControllerBase
 {
-    private readonly ReportsService _reportsService;
-
-    
+    // TODO: Add ReportsService when it's created
 }
