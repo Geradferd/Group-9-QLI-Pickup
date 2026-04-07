@@ -106,7 +106,6 @@ public class VehicleService
         return new VehicleResponse
         {
             Id = vehicle.Id,
-            UserId = vehicle.UserId,
             DisplayName = vehicle.DisplayName,
             Make = vehicle.Make,
             Model = vehicle.Model,

@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+/*using Microsoft.EntityFrameworkCore;
 using Api.Data;
 using Api.DTOs;
 using Api.Models;
@@ -101,3 +101,4 @@ public class ScheduleService
         };
     }
 }
+*/
