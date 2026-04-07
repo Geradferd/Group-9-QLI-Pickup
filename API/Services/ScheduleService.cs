@@ -38,7 +38,7 @@ public class ScheduleService
         return MapToResponse(type);
     }
 
-        /// Get or Update existing special dates
+        /// Update existing special dates
     public async Task<ScheduleResponse?> UpdateSpecialDates(int Id, UpdateScheduleRequest request)
     {
         var type = await _context.ScheduleTypes
@@ -47,11 +47,11 @@ public class ScheduleService
         if (type == null)
             return null;
 
-            Id = type.Id;
-            date = type.date;
-            specialStartTime = type.specialStartTime;
-            closedFlag = type.closedFlag;
-            description = type.description;
+            type.Id = request.Id;
+            type.date = request.date;
+            type.specialStartTime = request.specialStartTime;
+            type.closedFlag = request.closedFlag;
+            type.description = request.description;
 
         await _context.SaveChangesAsync();
 
