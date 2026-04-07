@@ -20,8 +20,7 @@ public class GPS_Track_Point
 
     // Foreign key to Trip - nullable (driver may be driving without an active trip)
     public int? TripId { get; set; }
-    // Uncomment when Trip model is created:
-    // public Trip? Trip { get; set; }
+    public Trip? Trip { get; set; } // Navigation property
 
     // GPS Coordinates
     [Required]

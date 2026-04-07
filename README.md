@@ -126,6 +126,26 @@ Complete CRUD API for managing transportation type categories:
 - Frontend UI components for transportation types
 - Trip status tracking and history
 
+#### 🔄 GPS Tracking (Planned)
+Real-time location tracking system for drivers and clients:
+
+**Architecture:**
+- Real-time channel for drivers to push location and clients to subscribe (e.g., SignalR hub)
+- REST endpoints for trip breadcrumbs, latest driver position, and all active driver positions
+
+**Planned Endpoints:**
+- `POST /api/gps/breadcrumb` - Record driver location during trip
+- `GET /api/gps/trip/{tripId}/breadcrumbs` - Get trip route/breadcrumbs
+- `GET /api/gps/driver/{driverId}/latest` - Get latest driver position
+- `GET /api/gps/drivers/active` - Get all active driver positions
+- SignalR Hub: `/gps-hub` - Real-time location updates for active trips
+
+**Features:**
+- Real-time driver location broadcasting
+- Trip route history tracking
+- Client visibility of driver location
+- Support for multiple active drivers
+
 **Known Issues:**
 - Full migration system needs to be set up with Entity Framework tools
 - Some controller placeholders (RiderController, DriverController) need full implementation
