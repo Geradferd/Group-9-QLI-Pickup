@@ -8,7 +8,11 @@ namespace Api.Models;
 public class SpecialDate
 {
     public int Id { get; set; }
-    
+
+    // Optional: which admin created this entry
+    public int? UserId { get; set; }
+    public User? User { get; set; }
+
     [MaxLength(100)]
     public string date { get; set; } = string.Empty; /// date for a activity
 
@@ -21,4 +25,8 @@ public class SpecialDate
     public bool closedFlag { get; set; } = false; /// rather or not the activity if available
 
     public string description { get; set; } = string.Empty; /// descirption for the special date
-}   
+
+    public bool IsActive { get; set; } = true;
+
+    public bool IsDeleted { get; set; } = false;
+}
