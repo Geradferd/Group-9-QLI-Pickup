@@ -19,10 +19,29 @@ public class ScheduleService
         _context = context;
     }
 
-    /// Get or Update existing operating hours
-    public async Task<ScheduleResponse?> UpdateOperatingHours(int Id, UpdateScheduleRequest request)
+    // GET operating hours
+    // Returns all active riders (soft-deleted riders are hidden by default)
+    public async Task<List<OperatingHoursResponse>> GetAllAsync(bool includeInactive = false)
     {
-        var type = await _context.ScheduleTypes
+        var query = _context.OperatingHours.AsQueryable();
+
+        if (!includeInactive)
+        {
+            query = query.Where(r => r.IsActive);
+        }
+
+        var operatingHours = await query
+            .OrderBy(r => r.startTime)
+            .ThenBy(r => r.endTime)
+            .ToListAsync();
+
+        return operatingHours.Select(r => MapToResponse(r)).ToList();
+    }
+
+    /// Update existing operating hours
+    public async Task<OperatingHoursResponse?> UpdateOperatingHours(int Id, UpdateOperatingHoursRequest request)
+    {
+        var type = await _context.OperatingHours
             .FirstOrDefaultAsync(t => t.Id == Id && !t.IsDeleted);
 
         if (type == null)
@@ -38,10 +57,29 @@ public class ScheduleService
         return MapToResponse(type);
     }
 
-        /// Update existing special dates
-    public async Task<ScheduleResponse?> UpdateSpecialDates(int Id, UpdateScheduleRequest request)
+    // GET special schedules
+    // Returns all special schedules (soft-deleted riders are hidden by default)
+    public async Task<List<SpecialScheduleResponse>> GetAllSpecialSchedulesAsync(bool includeInactive = false)
     {
-        var type = await _context.ScheduleTypes
+        var query = _context.SpecialSchedules.AsQueryable();
+
+        if (!includeInactive)
+        {
+            query = query.Where(r => r.IsActive);
+        }
+
+        var specialSchedules = await query
+            .OrderBy(r => r.date)
+            .ThenBy(r => r.specialStartTime)
+            .ToListAsync();
+
+        return specialSchedules.Select(r => MapToResponse(r)).ToList();
+    }
+
+    /// Update existing special dates
+    public async Task<SpecialScheduleResponse?> UpdateSpecialSchedules(int Id, UpdateSpecialSchedulesRequest request)
+    {
+        var type = await _context.SpecialSchedules
             .FirstOrDefaultAsync(t => t.Id == Id && !t.IsDeleted);
 
         if (type == null)
@@ -58,41 +96,61 @@ public class ScheduleService
         return MapToResponse(type);
     }
 
-        // Soft delete a special date type
-    public async Task<bool> SoftDeleteAsync(int id)
+    // Soft delete a special date type
+    public async Task<bool> SoftDeleteSpecialScedule(int id)
     {
-        var type = await _context.TransportationTypes
+        var type = await _context.SpecialSchedules
             .FirstOrDefaultAsync(t => t.Id == id && !t.IsDeleted);
 
         if (type == null)
             return false;
 
-        // Check if any active trips are using this type
-        var hasActiveTrips = await _context.Trips
-            .AnyAsync(t => t.TransportationTypeId == id && !t.Status.Equals("Cancelled"));
-
-        if (hasActiveTrips)
-        {
-            // Don't delete if there are active trips using this type
-            return false;
-        }
-
         type.closedFlag = true; /// Mark as closed
-
         await _context.SaveChangesAsync();
 
         return true;
     }
 
-    // Helper method to map entity to response DTO
-    private ScheduleResponse MapToResponse(ScheduleType type)
+        // CREATE a new special schedule
+
+    public async Task<SpecialScheduleResponse?> CreateSpecialScheduleAsync(CreateSpecialScheduleRequest request)
     {
-        return new ScheduleResponse
+        // Make sure the user exists before creating
+        var user = await _context.Users.FindAsync(request.UserId);
+        if (user == null)
+            return null;
+
+        var specialSchedule = new SpecialSchedule
+        {
+            UserId = request.UserId,
+            date = request.date,
+            specialStartTime = request.specialStartTime,
+            closedFlag = request.closedFlag,
+            description = request.description,
+        };
+
+        _context.SpecialSchedules.Add(specialSchedule);
+        await _context.SaveChangesAsync();
+
+        return MapToResponse(specialSchedule);
+    }
+
+    // Helper method to map entity to response DTO
+    private OperatingHoursResponse MapToResponse(ScheduleType type)
+    {
+        return new OperatingHoursResponse
         {
             day = type.day,
             startTime = type.startTime,
             endTime = type.endTime,
             enabledFlag = type.enabledFlag,
+        };
+    }
+
+    private SpecialScheduleResponse MapToResponse(ScheduleType type)
+    {
+        return new SpecialScheduleResponse
+        {
             Id = type.Id,
             date = type.date,
             specialStartTime = type.specialStartTime,
