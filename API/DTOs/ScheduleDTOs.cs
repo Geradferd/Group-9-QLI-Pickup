@@ -2,45 +2,86 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.DTOs;
 
+// ── Operating Hours ──────────────────────────────────────────────
 
-// define what data gets sent to and from the API
-// We use these instead of the User model 
-// dont expose sensitive data like the password hash
-
-/// DTO reading and updating for the operating hours 
-public class OperatingHoursTypeRequest
-{
-    [Required]
-    [MaxLength(100)]
-    public string day { get; set; } = string.Empty; /// the current day of the week
-
-    [Required]
-    [MaxLength(100)]
-    public string startTime { get; set; } = string.Empty; /// time that hours of operation starts
-
-    [Required]
-    [MaxLength(100)]
-    public string endTime { get; set; } = string.Empty; /// time that hours of operation ends
-
-    [Required]
-    public bool enabledFlag = true; /// rather or not the service is open
-}
-
-/// DTO CRUD for special dates
-public class SpecialDatesTypeRequest
+public class OperatingHoursResponse
 {
     public int Id { get; set; }
-    
-    [MaxLength(100)]
-    public string date { get; set; } = string.Empty; /// date for a activity
-
-    [MaxLength(100)]
-    public string specialStartTime { get; set; } = string.Empty; /// time that hours of operation starts
-
-    [MaxLength(100)]
-    public string specialEndTime { get; set; } = string.Empty; /// time that hours of operation ends
-
-    public bool closedFlag { get; set; } = false; /// rather or not the activity if available
-
-    public string description { get; set; } = string.Empty; /// descirption for the special date
+    public string day { get; set; } = string.Empty;
+    public string startTime { get; set; } = string.Empty;
+    public string endTime { get; set; } = string.Empty;
+    public bool enabledFlag { get; set; }
+    public bool IsActive { get; set; }
 }
+
+public class UpdateOperatingHoursRequest
+{
+    [Required]
+    [MaxLength(100)]
+    public string day { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(100)]
+    public string startTime { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(100)]
+    public string endTime { get; set; } = string.Empty;
+
+    public bool enabledFlag { get; set; } = true;
+    public bool IsActive { get; set; } = true;
+}
+
+// ── Special Schedules ────────────────────────────────────────────
+
+public class SpecialScheduleResponse
+{
+    public int Id { get; set; }
+    public int? UserId { get; set; }
+    public string date { get; set; } = string.Empty;
+    public string specialStartTime { get; set; } = string.Empty;
+    public string specialEndTime { get; set; } = string.Empty;
+    public bool closedFlag { get; set; }
+    public string description { get; set; } = string.Empty;
+    public bool IsActive { get; set; }
+}
+
+public class CreateSpecialScheduleRequest
+{
+    public int? UserId { get; set; }
+
+    [MaxLength(100)]
+    public string date { get; set; } = string.Empty;
+
+    [MaxLength(100)]
+    public string specialStartTime { get; set; } = string.Empty;
+
+    [MaxLength(100)]
+    public string specialEndTime { get; set; } = string.Empty;
+
+    public bool closedFlag { get; set; } = false;
+
+    public string description { get; set; } = string.Empty;
+}
+
+public class UpdateSpecialDatesRequest
+{
+    public int Id { get; set; }
+
+    [MaxLength(100)]
+    public string date { get; set; } = string.Empty;
+
+    [MaxLength(100)]
+    public string specialStartTime { get; set; } = string.Empty;
+
+    [MaxLength(100)]
+    public string specialEndTime { get; set; } = string.Empty;
+
+    public bool closedFlag { get; set; } = false;
+
+    public string description { get; set; } = string.Empty;
+
+    public bool IsActive { get; set; } = true;
+}
+
+public class UpdateSpecialSchedulesRequest : UpdateSpecialDatesRequest { }

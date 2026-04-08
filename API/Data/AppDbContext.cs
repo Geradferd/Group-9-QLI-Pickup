@@ -19,6 +19,8 @@ public class AppDbContext : DbContext
     public DbSet<TripStatusHistory> TripStatusHistories { get; set; } = null!;
     public DbSet<GPS_Track_Point> GPS_TrackPoints { get; set; } = null!;
     public DbSet<Notification> Notifications { get; set; } = null!;
+    public DbSet<Hours_of_Operation> OperatingHours { get; set; } = null!;
+    public DbSet<SpecialDate> SpecialSchedules { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -80,6 +82,7 @@ public class AppDbContext : DbContext
             .HasOne(g => g.Trip)
             .WithMany(t => t.TrackPoints)
             .HasForeignKey(g => g.TripId)
+            .OnDelete(DeleteBehavior.Cascade);
         // Notification
         modelBuilder.Entity<Notification>()
             .Property(n => n.Type)
@@ -99,6 +102,13 @@ public class AppDbContext : DbContext
             .HasOne(n => n.Trip)
             .WithMany(t => t.Notifications)
             .HasForeignKey(n => n.TripId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // SpecialDate
+        modelBuilder.Entity<SpecialDate>()
+            .HasOne(s => s.User)
+            .WithMany()
+            .HasForeignKey(s => s.UserId)
             .OnDelete(DeleteBehavior.SetNull);
     }
 }
