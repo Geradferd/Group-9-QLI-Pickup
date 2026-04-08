@@ -47,6 +47,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<TransportationTypeService>();
 builder.Services.AddScoped<RiderService>();
 builder.Services.AddScoped<GPSService>();
+builder.Services.AddScoped<NotificationService>();
 
 var app = builder.Build();
 

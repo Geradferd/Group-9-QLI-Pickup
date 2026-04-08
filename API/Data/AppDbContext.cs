@@ -18,6 +18,7 @@ public class AppDbContext : DbContext
     public DbSet<Trip> Trips { get; set; } = null!;
     public DbSet<TripStatusHistory> TripStatusHistories { get; set; } = null!;
     public DbSet<GPS_Track_Point> GPS_TrackPoints { get; set; } = null!;
+    public DbSet<Notification> Notifications { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -79,6 +80,25 @@ public class AppDbContext : DbContext
             .HasOne(g => g.Trip)
             .WithMany(t => t.TrackPoints)
             .HasForeignKey(g => g.TripId)
+        // Notification
+        modelBuilder.Entity<Notification>()
+            .Property(n => n.Type)
+            .HasConversion<string>();
+        modelBuilder.Entity<Notification>()
+            .Property(n => n.Channel)
+            .HasConversion<string>();
+        modelBuilder.Entity<Notification>()
+            .Property(n => n.DeliveryStatus)
+            .HasConversion<string>();
+        modelBuilder.Entity<Notification>()
+            .HasOne(n => n.RecipientUser)
+            .WithMany()
+            .HasForeignKey(n => n.RecipientUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Notification>()
+            .HasOne(n => n.Trip)
+            .WithMany(t => t.Notifications)
+            .HasForeignKey(n => n.TripId)
             .OnDelete(DeleteBehavior.SetNull);
     }
 }

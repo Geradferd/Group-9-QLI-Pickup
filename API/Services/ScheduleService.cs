@@ -2,13 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using Api.Data;
 using Api.DTOs;
 using Api.Models;
-using System.Data.Common;
-using System.ComponentModel;
 
 namespace Api.Services;
 
-// Handles all Transportation Type business logic
-// Communicates with DB to manage transportation types
+// Handles all Schedule / Hours of Operation business logic
+// TODO: Full implementation pending ScheduleDTOs and HoursOfOperation model completion
 
 public class ScheduleService
 {
@@ -158,4 +156,7 @@ public class ScheduleService
             description = type.description
         };
     }
+    // TODO: Implement UpdateOperatingHours once ScheduleResponse and UpdateScheduleRequest DTOs are finalized
+    // TODO: Implement UpdateSpecialDates once ScheduleResponse and UpdateScheduleRequest DTOs are finalized
+    // TODO: Implement SoftDelete for special dates
 }
