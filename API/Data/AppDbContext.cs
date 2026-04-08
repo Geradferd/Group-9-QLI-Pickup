@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<TransportationType> TransportationTypes { get; set; } = null!;
     public DbSet<Trip> Trips { get; set; } = null!;
     public DbSet<TripStatusHistory> TripStatusHistories { get; set; } = null!;
+    public DbSet<GPS_Track_Point> GPS_TrackPoints { get; set; } = null!;
     public DbSet<Notification> Notifications { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -69,6 +70,16 @@ public class AppDbContext : DbContext
             .HasForeignKey(h => h.ChangedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // GPS_Track_Point
+        modelBuilder.Entity<GPS_Track_Point>()
+            .HasOne(g => g.Driver)
+            .WithMany()
+            .HasForeignKey(g => g.DriverId)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<GPS_Track_Point>()
+            .HasOne(g => g.Trip)
+            .WithMany(t => t.TrackPoints)
+            .HasForeignKey(g => g.TripId)
         // Notification
         modelBuilder.Entity<Notification>()
             .Property(n => n.Type)
@@ -91,5 +102,3 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.SetNull);
     }
 }
-
-

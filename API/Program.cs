@@ -10,13 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
         policy.WithOrigins("http://localhost:5173")
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -44,6 +46,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<TransportationTypeService>();
 builder.Services.AddScoped<RiderService>();
+builder.Services.AddScoped<GPSService>();
 builder.Services.AddScoped<NotificationService>();
 
 var app = builder.Build();
@@ -64,6 +67,7 @@ if (!app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapHub<Api.Hubs.GpsHub>("/gps-hub");
 app.MapControllers();
 
 app.UseDefaultFiles();
