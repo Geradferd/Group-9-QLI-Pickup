@@ -1,0 +1,18 @@
+var searchData=
+[
+  ['id_0',['id',['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md25',1,'DELETE /api/driver/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md18',1,'DELETE /api/rider/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md39',1,'DELETE /api/transportationtypes/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md46',1,'DELETE /api/trips/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md32',1,'DELETE /api/vehicle/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md22',1,'GET /api/driver/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md15',1,'GET /api/rider/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md36',1,'GET /api/transportationtypes/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md43',1,'GET /api/trips/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md29',1,'GET /api/vehicle/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md24',1,'PUT /api/driver/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md17',1,'PUT /api/rider/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md38',1,'PUT /api/transportationtypes/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md45',1,'PUT /api/trips/{id}'],['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md31',1,'PUT /api/vehicle/{id}']]],
+  ['id_20approve_1',['POST /api/trips/{id}/approve',['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md49',1,'']]],
+  ['id_20assign_2',['POST /api/trips/{id}/assign',['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md51',1,'']]],
+  ['id_20cancel_3',['POST /api/trips/{id}/cancel',['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md55',1,'']]],
+  ['id_20complete_4',['POST /api/trips/{id}/complete',['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md53',1,'']]],
+  ['id_20deny_5',['POST /api/trips/{id}/deny',['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md50',1,'']]],
+  ['id_20noshow_6',['POST /api/trips/{id}/noshow',['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md54',1,'']]],
+  ['id_20start_7',['POST /api/trips/{id}/start',['../md_docs_2api_2_a_p_i___d_o_c_u_m_e_n_t_a_t_i_o_n.html#autotoc_md52',1,'']]],
+  ['implemented_8',['✅ Transportation Types API (NEW - Fully Implemented)',['../md__r_e_a_d_m_e.html#autotoc_md95',1,'']]],
+  ['in_20the_20database_9',['Verifying in the Database',['../md_docs_2api_2_t_e_s_t_i_n_g___g_u_i_d_e.html#autotoc_md85',1,'']]],
+  ['infrastructure_10',['✅ Infrastructure',['../md__r_e_a_d_m_e.html#autotoc_md97',1,'']]],
+  ['initialcreate_11',['InitialCreate',['../class_api_1_1_migrations_1_1_initial_create.html',1,'Api::Migrations']]],
+  ['invalid_20transitions_12',['Testing Invalid Transitions',['../md_docs_2api_2_t_e_s_t_i_n_g___g_u_i_d_e.html#autotoc_md84',1,'']]],
+  ['is_20this_20application_13',['is this application',['../dir_bff1a75f97c7ace650ee0c8d57d0aaa5.html#autotoc_md60',1,'What is this application?'],['../md__r_e_a_d_m_e.html#autotoc_md87',1,'What is this application?']]],
+  ['isactive_14',['IsActive',['../class_api_1_1_models_1_1_hours__of___operation.html#abe0b10e1d0ab6c6d11d3c3e548ce2a99',1,'Api.Models.Hours_of_Operation.IsActive'],['../class_api_1_1_models_1_1_special_date.html#ac72d695ee4e864cff5f6aae200875e15',1,'Api.Models.SpecialDate.IsActive']]]
+];
