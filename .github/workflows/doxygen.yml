@@ -1,0 +1,24 @@
+name: Deploy Doxygen to GitHub Pages
+
+on:
+  push:
+    branches:
+      - Gerald-Demo  # Standard target branch for documentation updates
+
+permissions:
+  contents: write  # Mandatory for the action to create/update the gh-pages branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate and Deploy Doxygen Docs
+        uses: DenverCoder1/doxygen-github-pages-action@v2.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: html        # Default is html; use docs/html if specified in Doxyfile
+          config_file: Doxyfile # Path relative to repo root
