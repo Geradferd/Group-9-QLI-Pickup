@@ -23,4 +23,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: html        # Default is html; use docs/html if specified in Doxyfile
-          config_file: Doxyfile # Path relative to repo root
+          config_file: docs/Doxyfile # Path relative to repo root
