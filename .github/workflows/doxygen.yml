@@ -7,6 +7,8 @@ on:
 
 permissions:
   contents: write  # Mandatory for the action to create/update the gh-pages branch
+  pages: write
+  id-token: write
 
 jobs:
   deploy:
