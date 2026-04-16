@@ -255,3 +255,79 @@ Real-time location tracking system for drivers and clients:
  - Gerald-demo (Hours/Schedule and Reports API Endpoints)
  - Angel-demo (Riders, Drivers, and Vehicles API Endpoints)
  - Matthew-demo (GPS Tracking API Endpoint)
+
+---
+
+## Release Notes — Login Page & Dashboard (April 16, 2026)
+
+### Overview
+
+This release introduces a fully functional **Login Page** and a new **Dashboard Page** as the authenticated landing screen for the QLIFT frontend.
+
+---
+
+### Login Page
+
+**File:** `Client/src/App.tsx` — `LoginPage` component
+
+#### How It Works
+
+1. The user is presented with the login form on first load (or after signing out).
+2. The form collects an **email** and **password**.
+3. On submit, a `POST` request is sent to `POST /api/auth/login` with the credentials.
+4. If successful, the API returns a JWT token along with the user's `id`, `email`, `displayName`, and `role`.
+5. The token and user info are stored in React state. The app then redirects to the **Dashboard Page**.
+6. If the credentials are invalid or the request fails, a red error banner is shown inline.
+
+#### Features
+
+- **Auto-focus** on the email field when the page loads
+- **Show / Hide password** toggle (eye icon button)
+- **Client-side validation** — both fields must be filled before submitting
+- **Loading state** — the sign-in button shows a spinner and is disabled while the request is in flight
+- **Inline error messages** — displayed in a styled error banner without a page reload
+- **Keyboard accessible** — the form submits on `Enter`
+- **Brand styling** — QLI logo, color-coded accent bar, and consistent typography
+
+#### How to Use
+
+1. Make sure both the API and frontend are running (see **Development Mode** above).
+2. Open `http://localhost:5173` in your browser.
+3. Enter your **email** and **password** for an existing account.
+4. Click **Sign in** (or press `Enter`).
+5. On success you will be taken to the Dashboard. On failure an error message will appear.
+
+> **To create an admin account for testing:**
+> ```bash
+> # 1. Register a user via the API
+> curl -X POST http://localhost:5270/api/auth/register \
+>   -H "Content-Type: application/json" \
+>   -d '{"email":"admin@test.com","password":"Admin123!","displayName":"Test Admin","role":"Admin"}'
+>
+> # 2. Or promote an existing user in MySQL
+> mysql -u root qlipickup -e "UPDATE Users SET Role = 'Admin' WHERE Email = 'your@email.com';"
+> ```
+
+---
+
+### Dashboard Page
+
+**File:** `Client/src/pages/DashboardPage.tsx`
+
+#### How It Works
+
+After a successful login the app renders `DashboardPage` instead of `LoginPage`. The logged-in user object (containing `displayName`, `role`, and JWT token) is passed down as a prop.
+
+#### Features
+
+- **QLI Pickup** brand name with logo in the top-left corner
+- Colored gradient accent bar across the top matching QLI brand colors
+- Logged-in user's **display name** and **role** shown in the top-right
+- **Sign out** button — clears the user state and returns to the Login Page
+- Empty content area ready for future dashboard widgets and navigation
+
+#### How to Use
+
+1. Log in via the Login Page.
+2. You will be taken directly to the Dashboard.
+3. Click **Sign out** in the top-right to return to the Login Page.
