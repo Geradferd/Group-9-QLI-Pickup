@@ -15,8 +15,8 @@ public class RiderService
         _context = context;
     }
 
-    // GET ALL RIDERS
-    // Returns all active riders (soft-deleted riders are hidden by default)
+    /// GET ALL RIDERS
+    /// Returns all active riders (soft-deleted riders are hidden by default)
     public async Task<List<RiderResponse>> GetAllAsync(bool includeInactive = false)
     {
         var query = _context.Riders.AsQueryable();
@@ -34,7 +34,7 @@ public class RiderService
         return riders.Select(r => MapToResponse(r)).ToList();
     }
 
-    // RIDER ID
+    /// RIDER ID
     public async Task<RiderResponse?> GetByIdAsync(int id)
     {
         var rider = await _context.Riders
@@ -47,11 +47,11 @@ public class RiderService
     }
 
  
-    // CREATE A NEW RIDER
+    /// CREATE A NEW RIDER
 
     public async Task<RiderResponse?> CreateAsync(CreateRiderRequest request)
     {
-        // Make sure the user exists before creating
+        /// Make sure the user exists before creating
         var user = await _context.Users.FindAsync(request.UserId);
         if (user == null)
             return null;
@@ -77,7 +77,7 @@ public class RiderService
     }
 
 
-    // UPDATE AN EXISTING RIDER
+    /// UPDATE AN EXISTING RIDER
 
     public async Task<RiderResponse?> UpdateAsync(int id, UpdateRiderRequest request)
     {
@@ -87,7 +87,7 @@ public class RiderService
         if (rider == null)
             return null;
 
-        // updates only the fields that are allowed to change
+        /// updates only the fields that are allowed to change
         rider.FirstName = request.FirstName;
         rider.LastName = request.LastName;
         rider.Phone = request.Phone;
@@ -102,8 +102,8 @@ public class RiderService
     }
 
 
-    // SOFT DELETE A RIDER
-    // Sets IsActive to false instead of actually deleting 
+    /// SOFT DELETE A RIDER
+    /// Sets IsActive to false instead of actually deleting 
     public async Task<bool> SoftDeleteAsync(int id)
     {
         var rider = await _context.Riders
@@ -118,7 +118,7 @@ public class RiderService
         return true;
     }
 
-    // HELPER - MAP RIDER TO RESPONSE DTO
+    /// HELPER - MAP RIDER TO RESPONSE DTO
     private RiderResponse MapToResponse(Rider rider)
     {
         return new RiderResponse
