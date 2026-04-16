@@ -5,9 +5,9 @@ using System.Security.Claims;
 
 namespace Api.Hubs;
 
-// SignalR Hub for real-time GPS location tracking
-// Drivers push their location updates, clients subscribe to receive real-time updates
-// Supports both individual driver tracking and broadcast of all active drivers
+/// SignalR Hub for real-time GPS location tracking
+/// Drivers push their location updates, clients subscribe to receive real-time updates
+/// Supports both individual driver tracking and broadcast of all active drivers
 [Authorize]
 public class GpsHub : Hub
 {
@@ -18,7 +18,7 @@ public class GpsHub : Hub
         _logger = logger;
     }
 
-    // Override OnConnected to track connected users
+    /// Override OnConnected to track connected users
     public override async Task OnConnectedAsync()
     {
         var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "Unknown";
@@ -29,7 +29,7 @@ public class GpsHub : Hub
         await base.OnConnectedAsync();
     }
 
-    // Override OnDisconnected
+    /// Override OnDisconnected
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
         var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "Unknown";
@@ -38,8 +38,8 @@ public class GpsHub : Hub
         await base.OnDisconnectedAsync(exception);
     }
 
-    // Driver calls this to broadcast their current location
-    // Called by: Driver clients
+    /// Driver calls this to broadcast their current location
+    /// Called by: Driver clients
     public async Task BroadcastDriverLocation(RealtimeLocationUpdate locationUpdate)
     {
         var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -61,8 +61,8 @@ public class GpsHub : Hub
         await Clients.All.SendAsync("DriverLocationUpdated", locationUpdate);
     }
 
-    // Clients call this to subscribe to a specific driver's real-time location
-    // Called by: Riders or admin users wanting to track a specific driver
+    /// Clients call this to subscribe to a specific driver's real-time location
+    /// Called by: Riders or admin users wanting to track a specific driver
     public async Task SubscribeToDriver(int driverId)
     {
         var groupName = $"driver-{driverId}";
@@ -72,7 +72,7 @@ public class GpsHub : Hub
         await Clients.Caller.SendAsync("SubscriptionConfirmed", $"Subscribed to driver {driverId}");
     }
 
-    // Driver-specific location update (sent only to subscribers of that driver)
+    /// Driver-specific location update (sent only to subscribers of that driver)
     public async Task BroadcastDriverLocationToSubscribers(RealtimeLocationUpdate locationUpdate)
     {
         var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -92,11 +92,11 @@ public class GpsHub : Hub
         
         _logger.LogInformation($"Driver {locationUpdate.DriverId} broadcast location to subscribers");
 
-        // Send to all subscribers of this specific driver
+        /// Send to all subscribers of this specific driver
         await Clients.Group(groupName).SendAsync("DriverLocationUpdated", locationUpdate);
     }
 
-    // Clients call this to unsubscribe from a driver
+    /// Clients call this to unsubscribe from a driver
     public async Task UnsubscribeFromDriver(int driverId)
     {
         var groupName = $"driver-{driverId}";
@@ -106,7 +106,7 @@ public class GpsHub : Hub
         await Clients.Caller.SendAsync("UnsubscriptionConfirmed", $"Unsubscribed from driver {driverId}");
     }
 
-    // Broadcast all active drivers' locations
+    /// Broadcast all active drivers' locations
     public async Task BroadcastAllActiveDrivers(ActiveDriversPositionsResponse response)
     {
         _logger.LogInformation($"Broadcasting {response.ActiveDrivers.Count} active driver positions");
@@ -115,14 +115,14 @@ public class GpsHub : Hub
         await Clients.All.SendAsync("AllActiveDriversUpdated", response);
     }
 
-    // Request current location from specific driver (for polling)
+    /// Request current location from specific driver (for polling)
     public async Task RequestDriverLocation(int driverId)
     {
         var driverGroupName = $"driver-{driverId}";
         
         _logger.LogInformation($"Location requested for driver {driverId}");
         
-        // Notify the driver that their location is being requested
+        /// Notify the driver that their location is being requested
         await Clients.Group($"driver-active-{driverId}").SendAsync("LocationRequested");
     }
 }

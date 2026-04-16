@@ -9,7 +9,7 @@ public class SpecialDate
 {
     public int Id { get; set; }
 
-    // Optional: which admin created this entry
+    /// Optional: which admin created this entry
     public int? UserId { get; set; }
     public User? User { get; set; }
 
