@@ -5,9 +5,9 @@ using Api.Services;
 
 namespace Api.Controllers;
 
-// API controller for managing transportation types
-// [Route("api/[controller]")] means all endpoints start with /api/transportationtypes
-// Most operations require Admin role for security
+/// API controller for managing transportation types
+/// [Route("api/[controller]")] means all endpoints start with /api/transportationtypes
+/// Most operations require Admin role for security
 [ApiController]
 [Route("api/[controller]")]
 public class TransportationTypesController : ControllerBase
@@ -19,9 +19,9 @@ public class TransportationTypesController : ControllerBase
         _transportationTypeService = transportationTypeService;
     }
 
-    // GET /api/transportationtypes
-    // Get all transportation types (excluding soft-deleted ones)
-    // Anyone authenticated can view transportation types
+    /// GET /api/transportationtypes
+    /// Get all transportation types (excluding soft-deleted ones)
+    /// Anyone authenticated can view transportation types
     [HttpGet]
     [Authorize]
     public async Task<IActionResult> GetAll([FromQuery] bool includeDeleted = false)
@@ -36,9 +36,9 @@ public class TransportationTypesController : ControllerBase
         return Ok(types);
     }
 
-    // GET /api/transportationtypes/{id}
-    // Get a specific transportation type by ID
-    // Anyone authenticated can view a specific transportation type
+    /// GET /api/transportationtypes/{id}
+    /// Get a specific transportation type by ID
+    /// Anyone authenticated can view a specific transportation type
     [HttpGet("{id}")]
     [Authorize]
     public async Task<IActionResult> GetById(int id)
@@ -51,9 +51,9 @@ public class TransportationTypesController : ControllerBase
         return Ok(type);
     }
 
-    // POST /api/transportationtypes
-    // Create a new transportation type
-    // Only admins can create new transportation types
+    /// POST /api/transportationtypes
+    /// Create a new transportation type
+    /// Only admins can create new transportation types
     [HttpPost]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] CreateTransportationTypeRequest request)
@@ -66,9 +66,9 @@ public class TransportationTypesController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = type.Id }, type);
     }
 
-    // PUT /api/transportationtypes/{id}
-    // Update an existing transportation type
-    // Only admins can update transportation types
+    /// PUT /api/transportationtypes/{id}
+    /// Update an existing transportation type
+    /// Only admins can update transportation types
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateTransportationTypeRequest request)
@@ -84,9 +84,9 @@ public class TransportationTypesController : ControllerBase
         return Ok(type);
     }
 
-    // DELETE /api/transportationtypes/{id}
-    // Soft delete a transportation type
-    // Only admins can delete transportation types
+    /// DELETE /api/transportationtypes/{id}
+    /// Soft delete a transportation type
+    /// Only admins can delete transportation types
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
