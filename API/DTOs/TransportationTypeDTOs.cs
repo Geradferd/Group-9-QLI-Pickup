@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.DTOs;
 
-// DTO for creating a new transportation type
+/// DTO for creating a new transportation type
 public class CreateTransportationTypeRequest
 {
     [Required(ErrorMessage = "Label is required")]
@@ -17,7 +17,7 @@ public class CreateTransportationTypeRequest
     public bool IsActive { get; set; } = true;
 }
 
-// DTO for updating an existing transportation type
+/// DTO for updating an existing transportation type
 public class UpdateTransportationTypeRequest
 {
     [Required(ErrorMessage = "Label is required")]
@@ -32,7 +32,7 @@ public class UpdateTransportationTypeRequest
     public bool IsActive { get; set; } = true;
 }
 
-// DTO for transportation type response
+/// DTO for transportation type response
 public class TransportationTypeResponse
 {
     public int Id { get; set; }
