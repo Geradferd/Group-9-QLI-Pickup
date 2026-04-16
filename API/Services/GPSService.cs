@@ -5,21 +5,21 @@ using Api.DTOs;
 
 namespace Api.Services;
 
-// GPS Service - handles all GPS tracking logic
-// Original CRUD operations created by team
-//
-// added by Angel:
-// - GPS deduplication: skips storing points within minimum distance of last point
-// - Trip validation: verifies trip is InProgress and driver is assigned before recording
-// - Haversine formula calculation for accurate GPS point comparison
-// - Stale position filtering for active drivers
+/// GPS Service - handles all GPS tracking logic
+/// Original CRUD operations created by team
+///
+/// added by Angel:
+/// - GPS deduplication: skips storing points within minimum distance of last point
+/// - Trip validation: verifies trip is InProgress and driver is assigned before recording
+/// - Haversine formula calculation for accurate GPS point comparison
+/// - Stale position filtering for active drivers
 
 public class GPSService
 {
     private readonly AppDbContext _context;
 
-    // Minimum distance in meters between GPS points before storing a new one
-    // Prevents database bloat when driver is stationary or moving slowly
+    /// Minimum distance in meters between GPS points before storing a new one
+    /// Prevents database bloat when driver is stationary or moving slowly
     private const double MinDistanceMeters = 10.0;
 
     public GPSService(AppDbContext context)
@@ -27,34 +27,34 @@ public class GPSService
         _context = context;
     }
 
-    // Record a new GPS breadcrumb for a driver
-    // Includes deduplication and trip validation
+    /// Record a new GPS breadcrumb for a driver
+    /// Includes deduplication and trip validation
     public async Task<GPSBreadcrumbResponse?> CreateBreadcrumbAsync(int driverId, CreateGPSBreadcrumbRequest request)
     {
-        // Verify driver exists
+        /// Verify driver exists
         var driver = await _context.Drivers.FirstOrDefaultAsync(d => d.UserId == driverId);
         if (driver == null)
             throw new Exception("Driver not found");
 
-        // If tripId is provided, validate the trip
+        /// If tripId is provided, validate the trip
         if (request.TripId.HasValue)
         {
             var trip = await _context.Trips.FirstOrDefaultAsync(t => t.Id == request.TripId.Value);
 
-            // Trip must exist
+            /// Trip must exist
             if (trip == null)
                 throw new Exception("Trip not found");
 
-            // Trip must be InProgress to record GPS
+            /// Trip must be InProgress to record GPS
             if (trip.Status != TripStatus.InProgress)
                 throw new Exception("GPS tracking is only active for trips that are in progress");
 
-            // Driver must be assigned to this trip
+            /// Driver must be assigned to this trip
             if (trip.DriverId != driver.Id)
                 throw new Exception("Driver is not assigned to this trip");
         }
 
-        // GPS Deduplication - check distance from last recorded point
+        /// GPS Deduplication - check distance from last recorded point
         var lastPoint = await _context.GPS_TrackPoints
             .Where(gps => gps.DriverId == driver.Id)
             .OrderByDescending(gps => gps.ServerTimestamp)
@@ -67,10 +67,10 @@ public class GPSService
                 request.Latitude, request.Longitude
             );
 
-            // Skip storing if within minimum distance threshold
+            /// Skip storing if within minimum distance threshold
             if (distance < MinDistanceMeters)
             {
-                return null; // Point too close to last one, skipped
+                return null; /// Point too close to last one, skipped
             }
         }
 
@@ -93,7 +93,7 @@ public class GPSService
         return MapToResponse(breadcrumb);
     }
 
-    // Get all breadcrumbs (location history) for a specific trip
+    /// Get all breadcrumbs (location history) for a specific trip
     public async Task<List<GPSBreadcrumbResponse>> GetTripBreadcrumbsAsync(int tripId)
     {
         var trip = await _context.Trips.FirstOrDefaultAsync(t => t.Id == tripId);
@@ -109,7 +109,7 @@ public class GPSService
         return breadcrumbs.Select(MapToResponse).ToList();
     }
 
-    // Get the latest GPS position for a specific driver
+    /// Get the latest GPS position for a specific driver
     public async Task<DriverLatestPositionResponse?> GetDriverLatestPositionAsync(int driverId)
     {
         var driver = await _context.Drivers.FirstOrDefaultAsync(d => d.Id == driverId);
@@ -140,13 +140,13 @@ public class GPSService
         };
     }
 
-    // Get latest positions for all active drivers
-    // Only includes drivers with an active (InProgress) trip
+    /// Get latest positions for all active drivers
+    /// Only includes drivers with an active (InProgress) trip
     public async Task<List<DriverLatestPositionResponse>> GetActiveDriversPositionsAsync(int minutesThreshold = 30)
     {
         var cutoffTime = DateTime.UtcNow.AddMinutes(-minutesThreshold);
 
-        // Get all active trip driver IDs to filter only truly active drivers
+        /// Get all active trip driver IDs to filter only truly active drivers
         var activeDriverIds = await _context.Trips
             .Where(t => t.Status == TripStatus.InProgress && t.DriverId.HasValue)
             .Select(t => t.DriverId!.Value)
@@ -186,8 +186,8 @@ public class GPSService
         return result;
     }
 
-    // Haversine formula - calculates the distance in meters between two GPS coordinates
-    // Used for deduplication to skip storing points that are too close together
+    /// Haversine formula - calculates the distance in meters between two GPS coordinates
+    /// Used for deduplication to skip storing points that are too close together
     private static double CalculateDistanceMeters(double lat1, double lon1, double lat2, double lon2)
     {
         const double EarthRadiusMeters = 6371000;
@@ -209,7 +209,7 @@ public class GPSService
         return degrees * (Math.PI / 180);
     }
 
-    // Convert GPS_Track_Point to DTO
+    /// Convert GPS_Track_Point to DTO
     private GPSBreadcrumbResponse MapToResponse(GPS_Track_Point breadcrumb)
     {
         return new GPSBreadcrumbResponse
