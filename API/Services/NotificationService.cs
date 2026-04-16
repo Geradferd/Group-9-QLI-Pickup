@@ -5,7 +5,7 @@ using Api.Models;
 
 namespace Api.Services;
 
-// Handles all Notification business logic
+/// Handles all Notification business logic
 public class NotificationService
 {
     private readonly AppDbContext _context;
@@ -15,8 +15,8 @@ public class NotificationService
         _context = context;
     }
 
-    // Get paginated notifications for a specific user
-    // Only returns notifications belonging to the requesting user
+    /// Get paginated notifications for a specific user
+    /// Only returns notifications belonging to the requesting user
     public async Task<PagedNotificationResponse> GetForUserAsync(int userId, int page, int pageSize)
     {
         page = Math.Max(1, page);
@@ -47,15 +47,15 @@ public class NotificationService
         };
     }
 
-    // Get the unread notification count for a user
+    /// Get the unread notification count for a user
     public async Task<int> GetUnreadCountAsync(int userId)
     {
         return await _context.Notifications
             .CountAsync(n => n.RecipientUserId == userId && n.ReadAt == null);
     }
 
-    // Mark a single notification as read
-    // Returns false if not found or doesn't belong to the user
+    /// Mark a single notification as read
+    /// Returns false if not found or doesn't belong to the user
     public async Task<bool> MarkReadAsync(int notificationId, int userId)
     {
         var notification = await _context.Notifications
@@ -64,7 +64,7 @@ public class NotificationService
         if (notification == null)
             return false;
 
-        // Already read - no-op, still return success
+        /// Already read - no-op, still return success
         if (notification.ReadAt != null)
             return true;
 
@@ -75,8 +75,8 @@ public class NotificationService
         return true;
     }
 
-    // Mark ALL notifications as read for a user
-    // Returns the number of notifications that were marked
+    /// Mark ALL notifications as read for a user
+    /// Returns the number of notifications that were marked
     public async Task<int> MarkAllReadAsync(int userId)
     {
         var unread = await _context.Notifications
@@ -97,7 +97,7 @@ public class NotificationService
         return unread.Count;
     }
 
-    // Maps a Notification entity to the response DTO
+    /// Maps a Notification entity to the response DTO
     private NotificationResponse MapToResponse(Notification n)
     {
         return new NotificationResponse
