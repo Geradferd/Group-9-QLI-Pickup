@@ -4,6 +4,11 @@ using Api.DTOs;
 using Api.Services;
 using System.Security.Claims;
 
+// GPS Controller - API endpoints for GPS tracking
+// Original endpoints created by team
+//
+// Updated by Angel:
+// - PostBreadcrumb handles deduplication response (null = point skipped)
 namespace Api.Controllers;
 
 [ApiController]
@@ -35,6 +40,10 @@ public class GPSController : ControllerBase
 
             var breadcrumb = await _gpsService.CreateBreadcrumbAsync(driverId, request);
             
+            // Null means the point was deduplicated (too close to last point)
+            if (breadcrumb == null)
+                return Ok(new { message = "Point skipped - too close to last recorded position" });
+
             _logger.LogInformation($"Driver {driverId} recorded GPS location: ({breadcrumb.Latitude}, {breadcrumb.Longitude})");
             
             return CreatedAtAction(nameof(PostBreadcrumb), new { id = breadcrumb.Id }, breadcrumb);

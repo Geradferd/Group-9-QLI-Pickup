@@ -14,14 +14,17 @@ namespace Api.Services;
 // - Status action methods: Approve, Deny, Assign, Start, Complete, NoShow, Cancel
 // - Audit logging: every status change is recorded in TripStatusHistory with who, when, and why
 // - Added audit log call to CreateAsync so trip creation is also tracked
+// - Auto-dispatch notifications on every status change (FR-19)
 
 public class TripService
 {
     private readonly AppDbContext _context;
+    private readonly NotificationDispatcher _dispatcher;
 
-    public TripService(AppDbContext context)
+    public TripService(AppDbContext context, NotificationDispatcher dispatcher)
     {
         _context = context;
+        _dispatcher = dispatcher;
     }
 
     // ========================
@@ -114,6 +117,9 @@ public class TripService
         // Log the creation in the audit trail
         await LogStatusChange(trip.Id, TripStatus.Pending, TripStatus.Pending, requestedByUserId, "Trip created");
 
+        // Notify admins about the new trip request (FR-19)
+        await _dispatcher.DispatchAsync(trip.Id, TripStatus.Pending, requestedByUserId);
+
         return MapToResponse(trip);
     }
 
@@ -199,6 +205,7 @@ public class TripService
 
         await _context.SaveChangesAsync();
         await LogStatusChange(id, fromStatus, TripStatus.Denied, userId, reason);
+        await _dispatcher.DispatchAsync(id, TripStatus.Denied, userId);
 
         return MapToResponse(trip);
     }
@@ -235,6 +242,7 @@ public class TripService
 
         await _context.SaveChangesAsync();
         await LogStatusChange(id, fromStatus, TripStatus.Scheduled, userId, "Driver and vehicle assigned");
+        await _dispatcher.DispatchAsync(id, TripStatus.Scheduled, userId);
 
         return MapToResponse(trip);
     }
@@ -257,6 +265,7 @@ public class TripService
 
         await _context.SaveChangesAsync();
         await LogStatusChange(id, fromStatus, TripStatus.InProgress, userId, "Trip started");
+        await _dispatcher.DispatchAsync(id, TripStatus.InProgress, userId);
 
         return MapToResponse(trip);
     }
@@ -280,6 +289,7 @@ public class TripService
 
         await _context.SaveChangesAsync();
         await LogStatusChange(id, fromStatus, TripStatus.Completed, userId, "Trip completed");
+        await _dispatcher.DispatchAsync(id, TripStatus.Completed, userId);
 
         return MapToResponse(trip);
     }
@@ -317,6 +327,7 @@ public class TripService
 
         await _context.SaveChangesAsync();
         await LogStatusChange(id, fromStatus, newStatus, userId, reason);
+        await _dispatcher.DispatchAsync(id, newStatus, userId);
 
         return MapToResponse(trip);
     }
