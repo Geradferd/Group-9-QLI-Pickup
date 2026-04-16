@@ -4,17 +4,17 @@ using Api.DTOs;
 using Api.Models;
 
 namespace Api.Services;
-// Trip Service - handles all trip business logic
-// Original CRUD operations (GetAll, GetById, Create, Update, SoftDelete)
-// were created by Gavin .
-//
-// Added by Angel:
-// - State machine (ValidTransitions dictionary) that enforces only valid status changes 
-//  -Pending can only go to Approved, Denied, or Cancelled — not directly to Completed
-// - Status action methods: Approve, Deny, Assign, Start, Complete, NoShow, Cancel
-// - Audit logging: every status change is recorded in TripStatusHistory with who, when, and why
-// - Added audit log call to CreateAsync so trip creation is also tracked
-// - Auto-dispatch notifications on every status change (FR-19)
+/// Trip Service - handles all trip business logic
+/// Original CRUD operations (GetAll, GetById, Create, Update, SoftDelete)
+/// were created by Gavin .
+///
+/// Added by Angel:
+/// - State machine (ValidTransitions dictionary) that enforces only valid status changes 
+///  -Pending can only go to Approved, Denied, or Cancelled — not directly to Completed
+/// - Status action methods: Approve, Deny, Assign, Start, Complete, NoShow, Cancel
+/// - Audit logging: every status change is recorded in TripStatusHistory with who, when, and why
+/// - Added audit log call to CreateAsync so trip creation is also tracked
+/// - Auto-dispatch notifications on every status change (FR-19)
 
 public class TripService
 {
@@ -27,10 +27,10 @@ public class TripService
         _dispatcher = dispatcher;
     }
 
-    // ========================
-    // STATE MACHINE (FR-07)
-    // Only these transitions are allowed — anything else gets rejected
-    // ========================
+    /// ========================
+    /// STATE MACHINE (FR-07)
+    /// Only these transitions are allowed — anything else gets rejected
+    /// ========================
     private static readonly Dictionary<TripStatus, List<TripStatus>> ValidTransitions = new()
     {
         { TripStatus.Pending, new List<TripStatus> { TripStatus.Approved, TripStatus.Denied, TripStatus.Cancelled } },
@@ -39,7 +39,7 @@ public class TripService
         { TripStatus.InProgress, new List<TripStatus> { TripStatus.Completed, TripStatus.NoShow } },
     };
 
-    // Statuses where the trip can no longer be edited
+    /// Statuses where the trip can no longer be edited
     private static readonly TripStatus[] LockedStatuses =
     [
         TripStatus.InProgress,
@@ -49,9 +49,9 @@ public class TripService
         TripStatus.NoShow
     ];
 
-    // ========================
-    // GET ALL TRIPS with filters (FR-06)
-    // ========================
+    /// ========================
+    /// GET ALL TRIPS with filters (FR-06)
+    /// ========================
     public async Task<List<TripResponse>> GetAllAsync(TripQueryParams query)
     {
         var q = _context.Trips
@@ -76,9 +76,9 @@ public class TripService
         return trips.Select(MapToResponse).ToList();
     }
 
-    // ========================
-    // GET TRIP BY ID
-    // ========================
+    /// ========================
+    /// GET TRIP BY ID
+    /// ========================
     public async Task<TripResponse?> GetByIdAsync(int id)
     {
         var trip = await _context.Trips
@@ -90,9 +90,9 @@ public class TripService
         return MapToResponse(trip);
     }
 
-    // ========================
-    // CREATE TRIP (FR-01)
-    // ========================
+    /// ========================
+    /// CREATE TRIP (FR-01)
+    /// ========================
     public async Task<TripResponse> CreateAsync(CreateTripRequest request, int requestedByUserId)
     {
         var trip = new Trip
@@ -114,18 +114,18 @@ public class TripService
         _context.Trips.Add(trip);
         await _context.SaveChangesAsync();
 
-        // Log the creation in the audit trail
+        /// Log the creation in the audit trail
         await LogStatusChange(trip.Id, TripStatus.Pending, TripStatus.Pending, requestedByUserId, "Trip created");
 
-        // Notify admins about the new trip request (FR-19)
+        /// Notify admins about the new trip request (FR-19)
         await _dispatcher.DispatchAsync(trip.Id, TripStatus.Pending, requestedByUserId);
 
         return MapToResponse(trip);
     }
 
-    // ========================
-    // UPDATE TRIP (FR-05 - only before InProgress)
-    // ========================
+    /// ========================
+    /// UPDATE TRIP (FR-05 - only before InProgress)
+    /// ========================
     public async Task<TripResponse?> UpdateAsync(int id, UpdateTripRequest request)
     {
         var trip = await _context.Trips
@@ -178,17 +178,17 @@ public class TripService
         return true;
     }
 
-    // ========================
-    // APPROVE (FR-02) — Pending → Approved
-    // ========================
+    /// ========================
+    /// APPROVE (FR-02) — Pending → Approved
+    /// ========================
     public async Task<TripResponse?> ApproveAsync(int id, int userId)
     {
         return await ChangeStatus(id, TripStatus.Approved, userId, "Trip approved");
     }
 
-    // ========================
-    // DENY (FR-02) — Pending → Denied (reason required)
-    // ========================
+    /// ========================
+    /// DENY (FR-02) — Pending → Denied (reason required)
+    /// ========================
     public async Task<TripResponse?> DenyAsync(int id, int userId, string reason)
     {
         var trip = await _context.Trips
@@ -210,9 +210,9 @@ public class TripService
         return MapToResponse(trip);
     }
 
-    // ========================
-    // ASSIGN (FR-03) — Approved → Scheduled (assign driver + vehicle)
-    // ========================
+    /// ========================
+    /// ASSIGN (FR-03) — Approved → Scheduled (assign driver + vehicle)
+    /// ========================
     public async Task<TripResponse?> AssignAsync(int id, AssignTripRequest request, int userId)
     {
         var trip = await _context.Trips
@@ -221,13 +221,13 @@ public class TripService
         if (trip == null || !IsValidTransition(trip.Status, TripStatus.Scheduled))
             return null;
 
-        // Validate driver exists and is active
+        /// Validate driver exists and is active
         var driver = await _context.Drivers
             .FirstOrDefaultAsync(d => d.Id == request.DriverId && d.IsActive);
         if (driver == null)
             return null;
 
-        // Validate vehicle exists and is active
+        /// Validate vehicle exists and is active
         var vehicle = await _context.Vehicles
             .FirstOrDefaultAsync(v => v.Id == request.VehicleId && v.IsActive);
         if (vehicle == null)
@@ -247,9 +247,9 @@ public class TripService
         return MapToResponse(trip);
     }
 
-    // ========================
-    // START (FR-04) — Scheduled → InProgress
-    // ========================
+    /// ========================
+    /// START (FR-04) — Scheduled → InProgress
+    /// ========================
     public async Task<TripResponse?> StartAsync(int id, int userId)
     {
         var trip = await _context.Trips
@@ -270,9 +270,9 @@ public class TripService
         return MapToResponse(trip);
     }
 
-    // ========================
-    // COMPLETE (FR-04) — InProgress → Completed
-    // ========================
+    /// ========================
+    /// COMPLETE (FR-04) — InProgress → Completed
+    /// ========================
     public async Task<TripResponse?> CompleteAsync(int id, int userId, CompleteTripRequest request)
     {
         var trip = await _context.Trips
@@ -294,25 +294,25 @@ public class TripService
         return MapToResponse(trip);
     }
 
-    // ========================
-    // NO SHOW (FR-04) — InProgress → NoShow
-    // ========================
+    /// ========================
+    /// NO SHOW (FR-04) — InProgress → NoShow
+    /// ========================
     public async Task<TripResponse?> NoShowAsync(int id, int userId)
     {
         return await ChangeStatus(id, TripStatus.NoShow, userId, "Rider did not show up");
     }
 
-    // ========================
-    // CANCEL (FR-02) — Pending/Approved/Scheduled → Cancelled
-    // ========================
+    /// ========================
+    /// CANCEL (FR-02) — Pending/Approved/Scheduled → Cancelled
+    /// ========================
     public async Task<TripResponse?> CancelAsync(int id, int userId, string? reason)
     {
         return await ChangeStatus(id, TripStatus.Cancelled, userId, reason ?? "Trip cancelled");
     }
 
-    // ========================
-    // HELPER — Change status with validation and audit logging
-    // ========================
+    /// ========================
+    /// HELPER — Change status with validation and audit logging
+    /// ========================
     private async Task<TripResponse?> ChangeStatus(int id, TripStatus newStatus, int userId, string reason)
     {
         var trip = await _context.Trips
@@ -332,9 +332,9 @@ public class TripService
         return MapToResponse(trip);
     }
 
-    // ========================
-    // HELPER — Check if transition is valid using state machine
-    // ========================
+    /// ========================
+    /// HELPER — Check if transition is valid using state machine
+    /// ========================
     private bool IsValidTransition(TripStatus from, TripStatus to)
     {
         if (!ValidTransitions.ContainsKey(from))
@@ -342,9 +342,9 @@ public class TripService
         return ValidTransitions[from].Contains(to);
     }
 
-    // ========================
-    // HELPER — Log every status change to TripStatusHistory (FR-07)
-    // ========================
+    /// ========================
+    /// HELPER — Log every status change to TripStatusHistory (FR-07)
+    /// ========================
     private async Task LogStatusChange(int tripId, TripStatus from, TripStatus to, int userId, string reason)
     {
         var history = new TripStatusHistory
@@ -361,9 +361,9 @@ public class TripService
         await _context.SaveChangesAsync();
     }
 
-    // ========================
-    // HELPER — Map Trip to Response DTO
-    // ========================
+    /// ========================
+    /// HELPER — Map Trip to Response DTO
+    /// ========================
     private TripResponse MapToResponse(Trip trip)
     {
         return new TripResponse
