@@ -3,7 +3,7 @@ name: Deploy Doxygen to GitHub Pages
 on:
   push:
     branches:
-      - main  # Standard target branch for documentation updates
+      - Gerald-Demo  # Standard target branch for documentation updates
 
 permissions:
   contents: write  # Mandatory for the action to create/update the gh-pages branch
