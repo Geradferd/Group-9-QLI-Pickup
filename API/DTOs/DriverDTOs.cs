@@ -24,7 +24,7 @@ public class CreateDriverRequest
     public DateTime? LicenseExpiry { get; set; }
 }
 
-// What the client sends when updating a driver
+/// What the client sends when updating a driver
 public class UpdateDriverRequest
 {
     [Required]

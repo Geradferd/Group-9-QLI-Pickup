@@ -5,7 +5,7 @@ using Api.Models;
 
 namespace Api.Services;
 
-// Handles all Schedule / Hours of Operation business logic
+/// Handles all Schedule / Hours of Operation business logic
 public class ScheduleService
 {
     private readonly AppDbContext _context;
@@ -15,7 +15,7 @@ public class ScheduleService
         _context = context;
     }
 
-    // ── Operating Hours ──────────────────────────────────────────
+    /// ── Operating Hours ──────────────────────────────────────────
 
     public async Task<List<OperatingHoursResponse>> GetAllAsync(bool includeInactive = false)
     {
@@ -50,7 +50,7 @@ public class ScheduleService
         return MapOperatingHoursToResponse(type);
     }
 
-    // ── Special Schedules ────────────────────────────────────────
+    /// ── Special Schedules ────────────────────────────────────────
 
     public async Task<List<SpecialScheduleResponse>> GetAllSpecialSchedulesAsync(bool includeInactive = false)
     {
@@ -131,7 +131,7 @@ public class ScheduleService
         return true;
     }
 
-    // ── Mappers ──────────────────────────────────────────────────
+    /// ── Mappers ──────────────────────────────────────────────────
 
     private OperatingHoursResponse MapOperatingHoursToResponse(Hours_of_Operation h) => new()
     {

@@ -9,7 +9,7 @@ public class AppDbContext : DbContext
     {
     }
 
-    // Tables
+    /// Tables
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Rider> Riders { get; set; } = null!;
     public DbSet<Driver> Drivers { get; set; } = null!;
@@ -26,7 +26,7 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // User
+        /// User
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
@@ -34,7 +34,7 @@ public class AppDbContext : DbContext
             .Property(u => u.Role)
             .HasConversion<string>();
 
-        // Trip
+        /// Trip
         modelBuilder.Entity<Trip>()
             .Property(t => t.Status)
             .HasConversion<string>();
@@ -54,7 +54,7 @@ public class AppDbContext : DbContext
             .HasForeignKey(t => t.ApprovedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // TripStatusHistory
+        /// TripStatusHistory
         modelBuilder.Entity<TripStatusHistory>()
             .Property(h => h.FromStatus)
             .HasConversion<string>();
@@ -72,7 +72,7 @@ public class AppDbContext : DbContext
             .HasForeignKey(h => h.ChangedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // GPS_Track_Point
+        /// GPS_Track_Point
         modelBuilder.Entity<GPS_Track_Point>()
             .HasOne(g => g.Driver)
             .WithMany()
@@ -83,7 +83,7 @@ public class AppDbContext : DbContext
             .WithMany(t => t.TrackPoints)
             .HasForeignKey(g => g.TripId)
             .OnDelete(DeleteBehavior.Cascade);
-        // Notification
+        /// Notification
         modelBuilder.Entity<Notification>()
             .Property(n => n.Type)
             .HasConversion<string>();
@@ -104,7 +104,7 @@ public class AppDbContext : DbContext
             .HasForeignKey(n => n.TripId)
             .OnDelete(DeleteBehavior.SetNull);
 
-        // SpecialDate
+        /// SpecialDate
         modelBuilder.Entity<SpecialDate>()
             .HasOne(s => s.User)
             .WithMany()

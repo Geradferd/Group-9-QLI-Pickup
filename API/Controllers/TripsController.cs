@@ -5,20 +5,20 @@ using Api.DTOs;
 using Api.Services;
 
 namespace Api.Controllers;
-// Trips Controller - API endpoints for trip management
-// Original CRUD endpoints (GetAll, GetById, Create, Update, Delete)
-// were created by Gavin
-//
-// Added by Angel:
-// - GetUserId() helper to extract user ID from JWT token
-// - POST /api/trips/{id}/approve — admin approves a pending trip 
-// - POST /api/trips/{id}/deny — admin denies a trip with reason 
-// - POST /api/trips/{id}/assign — admin assigns driver and vehicle 
-// - POST /api/trips/{id}/start — driver starts the trip 
-// - POST /api/trips/{id}/complete — driver completes the trip 
-// - POST /api/trips/{id}/noshow — driver marks rider as absent 
-// - POST /api/trips/{id}/cancel — any user cancels a trip 
-// - Role-based access: admin-only for approve/deny/assign, driver-only for start/complete/noshow
+/// Trips Controller - API endpoints for trip management
+/// Original CRUD endpoints (GetAll, GetById, Create, Update, Delete)
+/// were created by Gavin
+///
+/// Added by Angel:
+/// - GetUserId() helper to extract user ID from JWT token
+/// - POST /api/trips/{id}/approve — admin approves a pending trip 
+/// - POST /api/trips/{id}/deny — admin denies a trip with reason 
+/// - POST /api/trips/{id}/assign — admin assigns driver and vehicle 
+/// - POST /api/trips/{id}/start — driver starts the trip 
+/// - POST /api/trips/{id}/complete — driver completes the trip 
+/// - POST /api/trips/{id}/noshow — driver marks rider as absent 
+/// - POST /api/trips/{id}/cancel — any user cancels a trip 
+/// - Role-based access: admin-only for approve/deny/assign, driver-only for start/complete/noshow
 
 [ApiController]
 [Route("api/[controller]")]

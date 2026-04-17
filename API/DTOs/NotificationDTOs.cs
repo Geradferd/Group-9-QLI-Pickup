@@ -2,7 +2,7 @@ using Api.Models;
 
 namespace Api.DTOs;
 
-// Response DTO - returned to the client for each notification
+/// Response DTO - returned to the client for each notification
 public class NotificationResponse
 {
     public int Id { get; set; }
@@ -20,7 +20,7 @@ public class NotificationResponse
     public string? AdditionalData { get; set; }
 }
 
-// Paginated list response wrapper
+/// Paginated list response wrapper
 public class PagedNotificationResponse
 {
     public List<NotificationResponse> Items { get; set; } = new();
@@ -31,7 +31,7 @@ public class PagedNotificationResponse
     public int UnreadCount { get; set; }
 }
 
-// Request DTO for marking a single notification as read
+/// Request DTO for marking a single notification as read
 public class MarkReadRequest
 {
     public int NotificationId { get; set; }
