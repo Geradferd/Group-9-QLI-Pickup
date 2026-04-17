@@ -307,27 +307,3 @@ This release introduces a fully functional **Login Page** and a new **Dashboard 
 > # 2. Or promote an existing user in MySQL
 > mysql -u root qlipickup -e "UPDATE Users SET Role = 'Admin' WHERE Email = 'your@email.com';"
 > ```
-
----
-
-### Dashboard Page
-
-**File:** `Client/src/pages/DashboardPage.tsx`
-
-#### How It Works
-
-After a successful login the app renders `DashboardPage` instead of `LoginPage`. The logged-in user object (containing `displayName`, `role`, and JWT token) is passed down as a prop.
-
-#### Features
-
-- **QLI Pickup** brand name with logo in the top-left corner
-- Colored gradient accent bar across the top matching QLI brand colors
-- Logged-in user's **display name** and **role** shown in the top-right
-- **Sign out** button — clears the user state and returns to the Login Page
-- Empty content area ready for future dashboard widgets and navigation
-
-#### How to Use
-
-1. Log in via the Login Page.
-2. You will be taken directly to the Dashboard.
-3. Click **Sign out** in the top-right to return to the Login Page.
