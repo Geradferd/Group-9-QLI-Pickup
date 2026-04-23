@@ -4,6 +4,11 @@ using Api.DTOs;
 using Api.Services;
 using System.Security.Claims;
 
+/// GPS Controller - API endpoints for GPS tracking
+/// Original endpoints created by team
+///
+/// Updated by Angel:
+/// - PostBreadcrumb handles deduplication response (null = point skipped)
 namespace Api.Controllers;
 
 [ApiController]
@@ -20,9 +25,9 @@ public class GPSController : ControllerBase
         _logger = logger;
     }
 
-    // POST /api/gps/breadcrumb
-    // Record a new GPS location (breadcrumb) for the current driver
-    // Must be authenticated as a driver
+    /// POST /api/gps/breadcrumb
+    /// Record a new GPS location (breadcrumb) for the current driver
+    /// Must be authenticated as a driver
     [HttpPost("breadcrumb")]
     [Authorize(Roles = "Driver")]
     public async Task<IActionResult> PostBreadcrumb([FromBody] CreateGPSBreadcrumbRequest request)
@@ -35,6 +40,10 @@ public class GPSController : ControllerBase
 
             var breadcrumb = await _gpsService.CreateBreadcrumbAsync(driverId, request);
             
+            // Null means the point was deduplicated (too close to last point)
+            if (breadcrumb == null)
+                return Ok(new { message = "Point skipped - too close to last recorded position" });
+
             _logger.LogInformation($"Driver {driverId} recorded GPS location: ({breadcrumb.Latitude}, {breadcrumb.Longitude})");
             
             return CreatedAtAction(nameof(PostBreadcrumb), new { id = breadcrumb.Id }, breadcrumb);
@@ -46,9 +55,9 @@ public class GPSController : ControllerBase
         }
     }
 
-    // GET /api/gps/trip/{tripId}/breadcrumbs
-    // Get all GPS breadcrumbs (location history) for a specific trip
-    // Anyone authenticated can view trip breadcrumbs
+    /// GET /api/gps/trip/{tripId}/breadcrumbs
+    /// Get all GPS breadcrumbs (location history) for a specific trip
+    /// Anyone authenticated can view trip breadcrumbs
     [HttpGet("trip/{tripId}/breadcrumbs")]
     public async Task<IActionResult> GetTripBreadcrumbs(int tripId)
     {
@@ -64,9 +73,9 @@ public class GPSController : ControllerBase
         }
     }
 
-    // GET /api/gps/driver/{driverId}/latest
-    // Get the latest GPS position for a specific driver
-    // Anyone authenticated can view driver positions
+    /// GET /api/gps/driver/{driverId}/latest
+    /// Get the latest GPS position for a specific driver
+    /// Anyone authenticated can view driver positions
     [HttpGet("driver/{driverId}/latest")]
     public async Task<IActionResult> GetDriverLatestPosition(int driverId)
     {
@@ -86,9 +95,9 @@ public class GPSController : ControllerBase
         }
     }
 
-    // GET /api/gps/drivers/active
-    // Get latest positions for all active drivers (reported location within last 30 minutes)
-    // Anyone authenticated can view active driver positions
+    /// GET /api/gps/drivers/active
+    /// Get latest positions for all active drivers (reported location within last 30 minutes)
+    /// Anyone authenticated can view active driver positions
     [HttpGet("drivers/active")]
     public async Task<IActionResult> GetActiveDriversPositions([FromQuery] int minutesThreshold = 30)
     {

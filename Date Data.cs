@@ -5,10 +5,10 @@ using System.Runtime.CompilerServices;
 
 public class Calender
 {
-	// float year.month, string[] ("startTime hour.minute", "endTime hour.minute" "link", ...)
+	/// float year.month, string[] ("startTime hour.minute", "endTime hour.minute" "link", ...)
 	Dictionary<float, List<string>> cal = new Dictionary<float, List<string>>();
 
-	// Get all the time periods in a dictionary form startTime : endTime
+	/// Get all the time periods in a dictionary form startTime : endTime
 	public Dictionary<float, float> getTimesPeriods(List<string> info)
 	{
 		float startTime = 0.0;
@@ -22,7 +22,7 @@ public class Calender
 		return timePeriods;
 	}
 
-	// Get a list of time periods in list string
+	/// Get a list of time periods in list string
 	public List<string> orderedTimePeriods(Dinctionary<float, float>  timePeriods)
 	{
 		Dictionary<float, float> periods = new Dictionary<float, float>();
@@ -48,7 +48,7 @@ public class Calender
 		return orderedPeriods;
 	}
 
-	// Find the link given a time period inside of the info list string
+	/// Find the link given a time period inside of the info list string
 	public string[] getLink(List<string> info, List<string> timePeriod)
 	{
 		List<string> testPeriod = new List<string>();
@@ -62,7 +62,7 @@ public class Calender
 		return null;
 	}
 
-	// have the hour.minute time go to PM and AM time in a string
+	/// have the hour.minute time go to PM and AM time in a string
 	public string[] clockTime(string[] strTime)
 	{
 		float time = float.Parse(strTime);

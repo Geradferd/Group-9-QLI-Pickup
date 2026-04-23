@@ -5,7 +5,7 @@ using Api.Services;
 
 namespace Api.Controllers;
 
-// Admin can do everything, Riders can only view
+/// Admin can do everything, Riders can only view
 [ApiController]
 [Route("api/[controller]")]
 public class RiderController : ControllerBase
@@ -17,9 +17,9 @@ public class RiderController : ControllerBase
         _riderService = riderService;
     }
 
-    // GET ALL RIDERS
-    // Any authenticated user can view riders
-    // Only admins can see inactive riders
+    /// GET ALL RIDERS
+    /// Any authenticated user can view riders
+    /// Only admins can see inactive riders
     [HttpGet]
     [Authorize]
     public async Task<IActionResult> GetAll([FromQuery] bool includeInactive = false)
@@ -33,7 +33,7 @@ public class RiderController : ControllerBase
         return Ok(riders);
     }
 
-    // GET RIDER BY ID
+    /// GET RIDER BY ID
     [HttpGet("{id}")]
     [Authorize]
     public async Task<IActionResult> GetById(int id)
@@ -47,8 +47,8 @@ public class RiderController : ControllerBase
     }
 
 
-    // CREATE A NEW RIDER
-    // Only admins can create rider profiles
+    /// CREATE A NEW RIDER
+    /// Only admins can create rider profiles
     [HttpPost]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] CreateRiderRequest request)
@@ -64,8 +64,8 @@ public class RiderController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = rider.Id }, rider);
     }
 
-    // UPDATE A RIDER
-    // Only admins can update rider profiles
+    /// UPDATE A RIDER
+    /// Only admins can update rider profiles
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateRiderRequest request)
@@ -82,8 +82,8 @@ public class RiderController : ControllerBase
     }
 
   
-    // SOFT DELETE A RIDER
-    // Only admins can delete rider profiles
+    /// SOFT DELETE A RIDER
+    /// Only admins can delete rider profiles
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)

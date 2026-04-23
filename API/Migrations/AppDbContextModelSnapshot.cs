@@ -112,7 +112,44 @@ namespace Api.Migrations
 
                     b.HasIndex("DriverId", "DeviceTimestamp");
 
-                    b.ToTable("GPS_Track_Point");
+                    b.ToTable("GPS_TrackPoints");
+                });
+
+            modelBuilder.Entity("Api.Models.Hours_of_Operation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("day")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<bool>("enabledFlag")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("endTime")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("startTime")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OperatingHours");
                 });
 
             modelBuilder.Entity("Api.Models.Notification", b =>
@@ -132,14 +169,16 @@ namespace Api.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)");
 
-                    b.Property<int>("Channel")
-                        .HasColumnType("int");
+                    b.Property<string>("Channel")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("DeliveryStatus")
-                        .HasColumnType("int");
+                    b.Property<string>("DeliveryStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime?>("ReadAt")
                         .HasColumnType("datetime(6)");
@@ -158,8 +197,9 @@ namespace Api.Migrations
                     b.Property<int?>("TripId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -169,7 +209,7 @@ namespace Api.Migrations
 
                     b.HasIndex("RecipientUserId", "CreatedAt");
 
-                    b.ToTable("Notification");
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Api.Models.Rider", b =>
@@ -224,6 +264,52 @@ namespace Api.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Riders");
+                });
+
+            modelBuilder.Entity("Api.Models.SpecialDate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("closedFlag")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("date")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("specialEndTime")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("specialStartTime")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SpecialSchedules");
                 });
 
             modelBuilder.Entity("Api.Models.TransportationType", b =>
@@ -498,11 +584,14 @@ namespace Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Api.Models.Trip", null)
+                    b.HasOne("Api.Models.Trip", "Trip")
                         .WithMany("TrackPoints")
-                        .HasForeignKey("TripId");
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Driver");
+
+                    b.Navigation("Trip");
                 });
 
             modelBuilder.Entity("Api.Models.Notification", b =>
@@ -515,7 +604,8 @@ namespace Api.Migrations
 
                     b.HasOne("Api.Models.Trip", "Trip")
                         .WithMany("Notifications")
-                        .HasForeignKey("TripId");
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("RecipientUser");
 
@@ -529,6 +619,16 @@ namespace Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Api.Models.SpecialDate", b =>
+                {
+                    b.HasOne("Api.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("User");
                 });

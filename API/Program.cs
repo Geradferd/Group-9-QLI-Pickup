@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-//database connection to mysql from appsettings.json
+/// database connection to mysql from appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -47,6 +47,12 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<TransportationTypeService>();
 builder.Services.AddScoped<RiderService>();
 builder.Services.AddScoped<GPSService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<DriverService>();
+builder.Services.AddScoped<VehicleService>();
+builder.Services.AddScoped<TripService>();
+builder.Services.AddScoped<ScheduleService>();
+builder.Services.AddScoped<NotificationDispatcher>();
 
 var app = builder.Build();
 
