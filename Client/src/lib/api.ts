@@ -117,13 +117,25 @@ export function timeAgo(dt: string) {
 export function statusColor(status: string): { bg: string; text: string; dot: string } {
   switch (status?.toLowerCase()) {
     case "pending":    return { bg: "#fff8e1",       text: "#b8860b",    dot: brand.gold };
+    case "authorized": return { bg: "#ecfeff",        text: "#0891b2",    dot: "#0891b2" };
     case "approved":   return { bg: brand.blueLight,  text: brand.blueDark, dot: brand.blue };
+    case "accepted":   return { bg: brand.blueLight,  text: brand.blueDark, dot: brand.blue };
     case "assigned":   return { bg: "#e8f5e9",        text: "#2e7d32",    dot: "#43a047" };
+    case "scheduled":  return { bg: "#e8f5e9",        text: "#2e7d32",    dot: "#43a047" };
     case "inprogress": return { bg: brand.purpleLight, text: brand.purple, dot: brand.purple };
     case "completed":  return { bg: brand.greenLight,  text: "#3a7d00",   dot: brand.green };
     case "cancelled":  return { bg: "#f5f5f5",         text: brand.medGray, dot: brand.medGray };
     case "denied":     return { bg: brand.redLight,    text: brand.red,    dot: brand.red };
     case "noshow":     return { bg: "#fff3f0",         text: "#c0392b",    dot: "#e74c3c" };
     default:           return { bg: brand.lightGray,   text: brand.charcoal, dot: brand.medGray };
+  }
+}
+
+export function statusLabel(status: string): string {
+  switch (status?.toLowerCase()) {
+    case "authorized": return "Awaiting Rider";
+    case "inprogress": return "In Progress";
+    case "noshow":     return "No Show";
+    default:           return status ?? "Unknown";
   }
 }

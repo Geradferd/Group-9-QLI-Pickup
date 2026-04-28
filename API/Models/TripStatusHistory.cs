@@ -6,7 +6,9 @@ namespace Api.Models;
 public enum TripStatus
 {
     Pending,
-    Approved,
+    Authorized,   // Admin has authorized the trip, waiting for rider to accept
+    Accepted,     // Rider has accepted the authorized trip
+    Approved,     // Legacy — kept for DB compatibility
     Denied,
     Scheduled,
     InProgress,

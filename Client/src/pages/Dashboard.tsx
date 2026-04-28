@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { apiCall, brand, font, type User, type TripResponse, type NotificationResponse } from "../lib/api";
 import { StatCard, QuickAction } from "../components/Cards";
-import { TodaysTrips, RecentTrips, TripStatusSummary } from "../components/TripWidgets";
+import { TodaysTrips, RecentTrips, TripStatusSummary, AuthorizedTrips } from "../components/TripWidgets";
 import { NotificationsPanel } from "../components/NotificationsPanel";
 import NewTripModal from "../components/NewTripModal";
 
@@ -102,7 +102,7 @@ export default function Dashboard({
   // Computed stats
   const today        = new Date().toDateString();
   const todayTrips   = trips.filter(t => new Date(t.scheduledPickupTime).toDateString() === today);
-  const pendingTrips = trips.filter(t => t.status?.toLowerCase() === "pending");
+  const authorizedTrips = trips.filter(t => t.status?.toLowerCase() === "authorized");
   const completedToday = todayTrips.filter(t => t.status?.toLowerCase() === "completed");
   const activeTrips  = trips.filter(t => t.status?.toLowerCase() === "inprogress");
   const unreadCount  = notifications.filter(n => !n.isRead).length;
@@ -222,7 +222,7 @@ export default function Dashboard({
         {/* Stat cards */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 28 }}>
           <StatCard label="Today's Trips"    value={tripsLoading ? "—" : todayTrips.length}     icon={<IconTrip />}     color={brand.blue}   bg={brand.blueLight}   sub={`${completedToday.length} completed`} />
-          <StatCard label="Pending Approval" value={tripsLoading ? "—" : pendingTrips.length}   icon={<IconPending />}  color={brand.gold}   bg={brand.goldLight}   sub="Needs attention" />
+          <StatCard label="Awaiting Rider"   value={tripsLoading ? "—" : authorizedTrips.length} icon={<IconPending />}  color={brand.gold}   bg={brand.goldLight}   sub="Pending rider acceptance" />
           <StatCard label="Active Trips"     value={tripsLoading ? "—" : activeTrips.length}    icon={<IconCar />}      color={brand.purple} bg={brand.purpleLight} sub="In progress now" />
           <StatCard label="Completed Today"  value={tripsLoading ? "—" : completedToday.length} icon={<IconComplete />} color={brand.green}  bg={brand.greenLight}  sub={`of ${todayTrips.length} scheduled`} />
         </div>
@@ -237,7 +237,7 @@ export default function Dashboard({
             Quick Actions
           </h3>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))", gap: 12 }}>
-            <QuickAction label="New Trip"  icon={<span style={{ fontSize: 20 }}>➕</span>} color={brand.blue}   bg={brand.blueLight}   onClick={() => setShowNewTrip(true)} />
+            {isAdmin && <QuickAction label="New Trip"  icon={<span style={{ fontSize: 20 }}>➕</span>} color={brand.blue}   bg={brand.blueLight}   onClick={() => setShowNewTrip(true)} />}
             <QuickAction label="Schedule"  icon={<span style={{ fontSize: 20 }}>📅</span>} color={brand.green}  bg={brand.greenLight}  onClick={() => onNavigate("schedule")} />
             {(isAdmin || isDriver) && (
               <QuickAction label="Riders" icon={<IconRider />} color={brand.gold} bg={brand.goldLight} onClick={() => onNavigate("riders")} />
@@ -253,8 +253,9 @@ export default function Dashboard({
         {/* Main 2-column grid */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 20, alignItems: "start" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            <TodaysTrips trips={trips} loading={tripsLoading} />
-            <RecentTrips trips={trips} loading={tripsLoading} />
+            <AuthorizedTrips trips={trips} loading={tripsLoading} user={user} onAction={() => loadData()} />
+            <TodaysTrips trips={trips} loading={tripsLoading} user={user} onAction={() => loadData()} />
+            <RecentTrips trips={trips} loading={tripsLoading} user={user} onAction={() => loadData()} />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <NotificationsPanel notifications={notifications} loading={notifsLoading} onMarkRead={markRead} />

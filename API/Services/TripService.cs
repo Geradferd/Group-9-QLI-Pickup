@@ -33,11 +33,22 @@ public class TripService
     /// ========================
     private static readonly Dictionary<TripStatus, List<TripStatus>> ValidTransitions = new()
     {
-        { TripStatus.Pending, new List<TripStatus> { TripStatus.Approved, TripStatus.Denied, TripStatus.Cancelled } },
-        { TripStatus.Approved, new List<TripStatus> { TripStatus.Scheduled, TripStatus.Cancelled } },
-        { TripStatus.Scheduled, new List<TripStatus> { TripStatus.InProgress, TripStatus.Cancelled } },
-        { TripStatus.InProgress, new List<TripStatus> { TripStatus.Completed, TripStatus.NoShow } },
+        { TripStatus.Pending,     new List<TripStatus> { TripStatus.Authorized, TripStatus.Cancelled } },
+        { TripStatus.Authorized,  new List<TripStatus> { TripStatus.Accepted, TripStatus.Cancelled } },
+        { TripStatus.Accepted,    new List<TripStatus> { TripStatus.Scheduled, TripStatus.Cancelled } },
+        { TripStatus.Approved,    new List<TripStatus> { TripStatus.Scheduled, TripStatus.Cancelled } }, // legacy
+        { TripStatus.Scheduled,   new List<TripStatus> { TripStatus.InProgress, TripStatus.Cancelled } },
+        { TripStatus.InProgress,  new List<TripStatus> { TripStatus.Completed, TripStatus.NoShow } },
     };
+
+    /// Terminal statuses — cancel is never allowed once here
+    private static readonly TripStatus[] TerminalStatuses =
+    [
+        TripStatus.Completed,
+        TripStatus.Cancelled,
+        TripStatus.Denied,
+        TripStatus.NoShow,
+    ];
 
     /// Statuses where the trip can no longer be edited
     private static readonly TripStatus[] LockedStatuses =
@@ -99,7 +110,7 @@ public class TripService
         {
             RiderId = request.RiderId,
             TransportationTypeId = request.TransportationTypeId,
-            Status = TripStatus.Pending,
+            Status = TripStatus.Authorized,
             PickupAddress = request.PickupAddress,
             DestinationAddress = request.DestinationAddress,
             ScheduledPickupTime = request.ScheduledPickupTime,
@@ -114,11 +125,11 @@ public class TripService
         _context.Trips.Add(trip);
         await _context.SaveChangesAsync();
 
-        /// Log the creation in the audit trail
-        await LogStatusChange(trip.Id, TripStatus.Pending, TripStatus.Pending, requestedByUserId, "Trip created");
+        /// Log directly as Authorized since admin creates it pre-authorized
+        await LogStatusChange(trip.Id, TripStatus.Authorized, TripStatus.Authorized, requestedByUserId, "Trip created and authorized by admin");
 
-        /// Notify admins about the new trip request (FR-19)
-        await _dispatcher.DispatchAsync(trip.Id, TripStatus.Pending, requestedByUserId);
+        /// Notify about the new authorized trip
+        await _dispatcher.DispatchAsync(trip.Id, TripStatus.Authorized, requestedByUserId);
 
         return MapToResponse(trip);
     }
@@ -179,11 +190,27 @@ public class TripService
     }
 
     /// ========================
-    /// APPROVE (FR-02) — Pending → Approved
+    /// AUTHORIZE (Admin) — Pending → Authorized
+    /// ========================
+    public async Task<TripResponse?> AuthorizeAsync(int id, int userId)
+    {
+        return await ChangeStatus(id, TripStatus.Authorized, userId, "Trip authorized by admin");
+    }
+
+    /// ========================
+    /// ACCEPT (Rider) — Authorized → Accepted
+    /// ========================
+    public async Task<TripResponse?> AcceptAsync(int id, int userId)
+    {
+        return await ChangeStatus(id, TripStatus.Accepted, userId, "Trip accepted by rider");
+    }
+
+    /// ========================
+    /// APPROVE (legacy alias → Authorized) — kept for compatibility
     /// ========================
     public async Task<TripResponse?> ApproveAsync(int id, int userId)
     {
-        return await ChangeStatus(id, TripStatus.Approved, userId, "Trip approved");
+        return await AuthorizeAsync(id, userId);
     }
 
     /// ========================
@@ -307,7 +334,17 @@ public class TripService
     /// ========================
     public async Task<TripResponse?> CancelAsync(int id, int userId, string? reason)
     {
-        return await ChangeStatus(id, TripStatus.Cancelled, userId, reason ?? "Trip cancelled");
+        var trip = await _context.Trips.FirstOrDefaultAsync(t => t.Id == id && !t.IsDeleted);
+        if (trip == null || TerminalStatuses.Contains(trip.Status))
+            return null;
+
+        var fromStatus = trip.Status;
+        trip.Status = TripStatus.Cancelled;
+        trip.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+        await LogStatusChange(id, fromStatus, TripStatus.Cancelled, userId, reason ?? "Trip cancelled");
+        await _dispatcher.DispatchAsync(id, TripStatus.Cancelled, userId);
+        return MapToResponse(trip);
     }
 
     /// ========================
