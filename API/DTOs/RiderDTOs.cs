@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.DTOs;
 
-//client sends when creating a new rider
+/// client sends when creating a new rider
 public class CreateRiderRequest
 {
     [Required]
@@ -32,7 +32,7 @@ public class CreateRiderRequest
     public string? EmergencyContactPhone { get; set; }
 }
 
-// client sends when updating a rider
+/// client sends when updating a rider
 public class UpdateRiderRequest
 {
     [Required]
@@ -59,7 +59,7 @@ public class UpdateRiderRequest
     public string? EmergencyContactPhone { get; set; }
 }
 
-// server sends back (no sensitive data)
+/// server sends back (no sensitive data)
 public class RiderResponse
 {
     public int Id { get; set; }

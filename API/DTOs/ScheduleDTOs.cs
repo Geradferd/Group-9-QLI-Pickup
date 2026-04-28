@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.DTOs;
 
-// ── Operating Hours ──────────────────────────────────────────────
+/// ── Operating Hours ──────────────────────────────────────────────
 
 public class OperatingHoursResponse
 {
@@ -32,7 +32,7 @@ public class UpdateOperatingHoursRequest
     public bool IsActive { get; set; } = true;
 }
 
-// ── Special Schedules ────────────────────────────────────────────
+/// ── Special Schedules ────────────────────────────────────────────
 
 public class SpecialScheduleResponse
 {

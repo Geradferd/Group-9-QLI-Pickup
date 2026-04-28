@@ -4,19 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 
 namespace Api.Services;
-// Notification Dispatcher - auto-creates notifications on trip status changes 
-// Called by TripService after every status transition
-// Routes notifications to the right person based on status:
-//   Pending = admins notified of new request
-//   Approved/Denied = requester notified
-//   Scheduled = driver and requester notified
-//   InProgress/Completed = requester notified
-//   NoShow = admins notified
-//   Cancelled = requester and assigned driver notified
+/// Notification Dispatcher - auto-creates notifications on trip status changes 
+/// Called by TripService after every status transition
+/// Routes notifications to the right person based on status:
+///   Pending = admins notified of new request
+///   Approved/Denied = requester notified
+///   Scheduled = driver and requester notified
+///   InProgress/Completed = requester notified
+///   NoShow = admins notified
+///   Cancelled = requester and assigned driver notified
 
-// Automatically creates notifications when trip status changes 
-// Called by TripService after each status transition
-// Each status change notifies the right person with the right message
+/// Automatically creates notifications when trip status changes (FR-19)
+/// Called by TripService after each status transition
+/// Each status change notifies the right person with the right message
 public class NotificationDispatcher
 {
     private readonly AppDbContext _context;
@@ -26,8 +26,8 @@ public class NotificationDispatcher
         _context = context;
     }
 
-    // Main method - called after every trip status change
-    // Determines who to notify and what to say based on the new status
+    /// Main method - called after every trip status change
+    /// Determines who to notify and what to say based on the new status
     public async Task DispatchAsync(int tripId, TripStatus newStatus, int changedByUserId)
     {
         var trip = await _context.Trips
@@ -70,7 +70,7 @@ public class NotificationDispatcher
                 break;
 
             case TripStatus.Scheduled:
-                // Notify the assigned driver that they have a new trip
+                /// Notify the assigned driver that they have a new trip
                 if (trip.DriverId.HasValue)
                 {
                     var driver = await _context.Drivers
@@ -86,7 +86,7 @@ public class NotificationDispatcher
                         );
                     }
                 }
-                // Also notify the requester that a driver was assigned
+                /// Also notify the requester that a driver was assigned
                 await NotifyUser(
                     trip.RequestedByUserId,
                     tripId,
@@ -97,7 +97,7 @@ public class NotificationDispatcher
                 break;
 
             case TripStatus.InProgress:
-                // Notify the requester that the driver has started the trip
+                /// Notify the requester that the driver has started the trip
                 await NotifyUser(
                     trip.RequestedByUserId,
                     tripId,
@@ -108,7 +108,7 @@ public class NotificationDispatcher
                 break;
 
             case TripStatus.Completed:
-                // Notify the requester that the trip is complete
+                /// Notify the requester that the trip is complete
                 await NotifyUser(
                     trip.RequestedByUserId,
                     tripId,
@@ -119,7 +119,7 @@ public class NotificationDispatcher
                 break;
 
             case TripStatus.NoShow:
-                // Notify admins that a rider didn't show up
+                /// Notify admins that a rider didn't show up
                 await NotifyAdmins(
                     tripId,
                     "Rider No-Show",
@@ -128,7 +128,7 @@ public class NotificationDispatcher
                 break;
 
             case TripStatus.Cancelled:
-                // Notify the requester if someone else cancelled it
+                /// Notify the requester if someone else cancelled it
                 if (changedByUserId != trip.RequestedByUserId)
                 {
                     await NotifyUser(
@@ -139,7 +139,7 @@ public class NotificationDispatcher
                         $"Your trip from {trip.PickupAddress} to {trip.DestinationAddress} has been cancelled."
                     );
                 }
-                // If a driver was assigned, notify them too
+                /// If a driver was assigned, notify them too
                 if (trip.DriverId.HasValue)
                 {
                     var driver = await _context.Drivers
@@ -159,7 +159,7 @@ public class NotificationDispatcher
         }
     }
 
-    // Helper - create a notification for a specific user
+    /// Helper - create a notification for a specific user
     private async Task NotifyUser(int userId, int tripId, NotificationType type, string title, string body)
     {
         var notification = new Notification
@@ -179,7 +179,7 @@ public class NotificationDispatcher
         await _context.SaveChangesAsync();
     }
 
-    // Helper - notify all admin users
+    /// Helper - notify all admin users
     private async Task NotifyAdmins(int tripId, string title, string body)
     {
         var admins = await _context.Users

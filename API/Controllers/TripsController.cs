@@ -5,20 +5,20 @@ using Api.DTOs;
 using Api.Services;
 
 namespace Api.Controllers;
-// Trips Controller - API endpoints for trip management
-// Original CRUD endpoints (GetAll, GetById, Create, Update, Delete)
-// were created by Gavin
-//
-// Added by Angel:
-// - GetUserId() helper to extract user ID from JWT token
-// - POST /api/trips/{id}/approve — admin approves a pending trip 
-// - POST /api/trips/{id}/deny — admin denies a trip with reason 
-// - POST /api/trips/{id}/assign — admin assigns driver and vehicle 
-// - POST /api/trips/{id}/start — driver starts the trip 
-// - POST /api/trips/{id}/complete — driver completes the trip 
-// - POST /api/trips/{id}/noshow — driver marks rider as absent 
-// - POST /api/trips/{id}/cancel — any user cancels a trip 
-// - Role-based access: admin-only for approve/deny/assign, driver-only for start/complete/noshow
+/// Trips Controller - API endpoints for trip management
+/// Original CRUD endpoints (GetAll, GetById, Create, Update, Delete)
+/// were created by Gavin
+///
+/// Added by Angel:
+/// - GetUserId() helper to extract user ID from JWT token
+/// - POST /api/trips/{id}/approve — admin approves a pending trip 
+/// - POST /api/trips/{id}/deny — admin denies a trip with reason 
+/// - POST /api/trips/{id}/assign — admin assigns driver and vehicle 
+/// - POST /api/trips/{id}/start — driver starts the trip 
+/// - POST /api/trips/{id}/complete — driver completes the trip 
+/// - POST /api/trips/{id}/noshow — driver marks rider as absent 
+/// - POST /api/trips/{id}/cancel — any user cancels a trip 
+/// - Role-based access: admin-only for approve/deny/assign, driver-only for start/complete/noshow
 
 [ApiController]
 [Route("api/[controller]")]
@@ -55,7 +55,7 @@ public class TripsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] CreateTripRequest request)
     {
         if (!ModelState.IsValid)
@@ -88,14 +88,32 @@ public class TripsController : ControllerBase
     }
 
     // TRIP STATUS ACTIONS 
-    
 
+    [HttpPost("{id}/authorize")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Authorize(int id)
+    {
+        var trip = await _tripService.AuthorizeAsync(id, GetUserId());
+        if (trip == null)
+            return BadRequest(new { message = "Trip not found or invalid status transition" });
+        return Ok(trip);
+    }
+
+    [HttpPost("{id}/accept")]
+    [Authorize(Roles = "Rider,Admin")]
+    public async Task<IActionResult> Accept(int id)
+    {
+        var trip = await _tripService.AcceptAsync(id, GetUserId());
+        if (trip == null)
+            return BadRequest(new { message = "Trip not found or invalid status transition" });
+        return Ok(trip);
+    }
 
     [HttpPost("{id}/approve")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Approve(int id)
     {
-        var trip = await _tripService.ApproveAsync(id, GetUserId());
+        var trip = await _tripService.AuthorizeAsync(id, GetUserId());
         if (trip == null)
             return BadRequest(new { message = "Trip not found or invalid status transition" });
         return Ok(trip);
@@ -128,7 +146,7 @@ public class TripsController : ControllerBase
     }
 
     [HttpPost("{id}/start")]
-    [Authorize(Roles = "Driver")]
+    [Authorize(Roles = "Driver,Admin")]
     public async Task<IActionResult> Start(int id)
     {
         var trip = await _tripService.StartAsync(id, GetUserId());
@@ -139,7 +157,7 @@ public class TripsController : ControllerBase
 
 
     [HttpPost("{id}/complete")]
-    [Authorize(Roles = "Driver")]
+    [Authorize(Roles = "Driver,Admin")]
     public async Task<IActionResult> Complete(int id, [FromBody] CompleteTripRequest request)
     {
         var trip = await _tripService.CompleteAsync(id, GetUserId(), request);
@@ -150,7 +168,7 @@ public class TripsController : ControllerBase
 
  
     [HttpPost("{id}/noshow")]
-    [Authorize(Roles = "Driver")]
+    [Authorize(Roles = "Driver,Admin")]
     public async Task<IActionResult> NoShow(int id)
     {
         var trip = await _tripService.NoShowAsync(id, GetUserId());

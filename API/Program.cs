@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-//database connection to mysql from appsettings.json
+/// database connection to mysql from appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));

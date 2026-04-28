@@ -5,14 +5,14 @@ using Api.Services;
 
 namespace Api.Controllers;
 
-// Schedule Controller
-// GET    /api/schedule/operating-hours                  - List operating hours
-// PUT    /api/schedule/operating-hours/{id}             - Update operating hours (Admin)
-// GET    /api/schedule/special-schedules                - List special schedules
-// GET    /api/schedule/special-schedules/{id}           - Get special schedule by ID
-// POST   /api/schedule/special-schedules                - Create special schedule (Admin)
-// PUT    /api/schedule/special-schedules/{id}           - Update special schedule (Admin)
-// DELETE /api/schedule/special-schedules/{id}           - Soft delete special schedule (Admin)
+/// Schedule Controller
+/// GET    /api/schedule/operating-hours                  - List operating hours
+/// PUT    /api/schedule/operating-hours/{id}             - Update operating hours (Admin)
+/// GET    /api/schedule/special-schedules                - List special schedules
+/// GET    /api/schedule/special-schedules/{id}           - Get special schedule by ID
+/// POST   /api/schedule/special-schedules                - Create special schedule (Admin)
+/// PUT    /api/schedule/special-schedules/{id}           - Update special schedule (Admin)
+/// DELETE /api/schedule/special-schedules/{id}           - Soft delete special schedule (Admin)
 
 [ApiController]
 [Route("api/[controller]")]
@@ -26,9 +26,9 @@ public class ScheduleController : ControllerBase
         _scheduleService = scheduleService;
     }
 
-    // ── Operating Hours ──────────────────────────────────────────
+    /// ── Operating Hours ──────────────────────────────────────────
 
-    // GET /api/schedule/operating-hours
+    /// GET /api/schedule/operating-hours
     [HttpGet("operating-hours")]
     public async Task<IActionResult> GetOperatingHours([FromQuery] bool includeInactive = false)
     {
@@ -39,7 +39,7 @@ public class ScheduleController : ControllerBase
         return Ok(operatingHours);
     }
 
-    // PUT /api/schedule/operating-hours/{id}
+    /// PUT /api/schedule/operating-hours/{id}
     [HttpPut("operating-hours/{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> UpdateOperatingHours(int id, [FromBody] UpdateOperatingHoursRequest request)
@@ -55,9 +55,9 @@ public class ScheduleController : ControllerBase
         return Ok(schedule);
     }
 
-    // ── Special Schedules ────────────────────────────────────────
+    /// ── Special Schedules ────────────────────────────────────────
 
-    // GET /api/schedule/special-schedules
+    /// GET /api/schedule/special-schedules
     [HttpGet("special-schedules")]
     public async Task<IActionResult> GetSpecialSchedules([FromQuery] bool includeInactive = false)
     {
@@ -68,7 +68,7 @@ public class ScheduleController : ControllerBase
         return Ok(specialSchedules);
     }
 
-    // GET /api/schedule/special-schedules/{id}
+    /// GET /api/schedule/special-schedules/{id}
     [HttpGet("special-schedules/{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -80,7 +80,7 @@ public class ScheduleController : ControllerBase
         return Ok(schedule);
     }
 
-    // POST /api/schedule/special-schedules
+    /// POST /api/schedule/special-schedules
     [HttpPost("special-schedules")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] CreateSpecialScheduleRequest request)
@@ -96,7 +96,7 @@ public class ScheduleController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = specialSchedule.Id }, specialSchedule);
     }
 
-    // PUT /api/schedule/special-schedules/{id}
+    /// PUT /api/schedule/special-schedules/{id}
     [HttpPut("special-schedules/{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> UpdateSpecialDates(int id, [FromBody] UpdateSpecialDatesRequest request)
@@ -112,7 +112,7 @@ public class ScheduleController : ControllerBase
         return Ok(schedule);
     }
 
-    // DELETE /api/schedule/special-schedules/{id}
+    /// DELETE /api/schedule/special-schedules/{id}
     [HttpDelete("special-schedules/{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)

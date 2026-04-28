@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 namespace Api.DTOs;
 
 
-// define what data gets sent to and from the API
-// We use these instead of the User model 
-// dont expose sensitive data like the password hash
+/// define what data gets sent to and from the API
+/// We use these instead of the User model 
+/// dont expose sensitive data like the password hash
 
-// registering a new account
+/// registering a new account
 public class RegisterRequest
 {
     [Required]
@@ -23,7 +23,7 @@ public class RegisterRequest
     public string DisplayName { get; set; } = string.Empty;
 }
 
-// client sends when logging in
+/// client sends when logging in
 public class LoginRequest
 {
     [Required]
@@ -34,8 +34,8 @@ public class LoginRequest
     public string Password { get; set; } = string.Empty;
 }
 
-// sends back after a successful login
-// no sensitive data only what the frontend needs
+/// sends back after a successful login
+/// no sensitive data only what the frontend needs
 public class AuthResponse
 {
     public int Id { get; set; }

@@ -1,45 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-
-const API = "http://localhost:5270/api";
-
-const brand = {
-  blue: "#2e94b9",
-  blueDark: "#267d9e",
-  green: "#7ab541",
-  gold: "#e8b630",
-  charcoal: "#2d2d2d",
-  darkGray: "#3a3a3a",
-  medGray: "#6b6b6b",
-  lightGray: "#f5f5f5",
-  borderGray: "#dcdcdc",
-  white: "#ffffff",
-  error: "#c0392b",
-  errorBg: "#fdf0ef",
-};
-
-async function apiCall(path: string, method = "GET", body: unknown = null, token: string | null = null) {
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (token) headers["Authorization"] = `Bearer ${token}`;
-  const opts: RequestInit = { method, headers };
-  if (body) opts.body = JSON.stringify(body);
-  const res = await fetch(`${API}${path}`, opts);
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || `Error ${res.status}`);
-  }
-  const text = await res.text();
-  return text ? JSON.parse(text) : null;
-}
-
-interface User {
-  id: number;
-  email: string;
-  displayName: string;
-  role: string;
-  token: string;
-}
-
-const font = "'Segoe UI', system-ui, -apple-system, sans-serif";
+import DashboardPage, { type Page } from "./pages/Dashboard";
+import { apiCall, brand, font, type User } from "./lib/api";
 
 // Loading spinner component
 function Spinner() {
@@ -189,9 +150,9 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
           {}
           {error && (
             <div style={{
-              background: brand.errorBg,
-              border: `1px solid ${brand.error}`,
-              color: brand.error,
+              background: brand.redLight,
+              border: `1px solid ${brand.red}`,
+              color: brand.red,
               padding: "12px 16px",
               borderRadius: 6,
               fontSize: 15,
@@ -341,137 +302,16 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
   );
 }
 
-function Dashboard({ user, onLogout }: { user: User; onLogout: () => void }) {
-  return (
-    <div style={{
-      minHeight: "100vh",
-      background: brand.lightGray,
-      fontFamily: font,
-    }}>
-      <div style={{
-        height: 5,
-        background: `linear-gradient(90deg, ${brand.blue} 0%, ${brand.green} 40%, ${brand.gold} 100%)`,
-      }} />
-
-      {/* Header */}
-      <div style={{
-        background: brand.white,
-        borderBottom: `1px solid ${brand.borderGray}`,
-        padding: "16px 36px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <img src="/qli-checkmark.png" alt="QLI" style={{ width: 36, height: 36 }} />
-          <span style={{
-            fontSize: 22,
-            fontWeight: 700,
-            color: brand.charcoal,
-            letterSpacing: "-0.3px",
-          }}>QLIFT</span>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <div style={{ textAlign: "right" as const }}>
-            <div style={{ fontSize: 15, fontWeight: 500, color: brand.charcoal }}>{user.displayName}</div>
-            <div style={{
-              fontSize: 12,
-              color: brand.blue,
-              fontWeight: 600,
-              textTransform: "uppercase" as const,
-              letterSpacing: "0.5px",
-            }}>{user.role}</div>
-          </div>
-          <button
-            onClick={onLogout}
-            style={{
-              padding: "8px 18px",
-              fontSize: 14,
-              fontWeight: 500,
-              color: brand.medGray,
-              background: "transparent",
-              border: `1px solid ${brand.borderGray}`,
-              borderRadius: 6,
-              cursor: "pointer",
-              fontFamily: font,
-              transition: "border-color 0.2s",
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.borderColor = brand.medGray}
-            onMouseLeave={(e) => e.currentTarget.style.borderColor = brand.borderGray}
-          >Sign out</button>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div style={{ padding: "48px 36px", maxWidth: 1000, margin: "0 auto" }}>
-        <h1 style={{
-          fontSize: 28,
-          fontWeight: 600,
-          color: brand.charcoal,
-          margin: "0 0 8px",
-        }}>Welcome, {user.displayName}</h1>
-        <p style={{
-          fontSize: 16,
-          color: brand.medGray,
-          margin: "0 0 36px",
-        }}>You are signed in as {user.role}. Select an option below to get started.</p>
-
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
-          gap: 20,
-        }}>
-          {[
-            { title: "Riders", desc: "View and manage rider profiles", color: brand.blue },
-            { title: "Drivers", desc: "View and manage driver profiles", color: brand.green },
-            { title: "Vehicles", desc: "View and manage fleet vehicles", color: brand.gold },
-            { title: "Trips", desc: "View and manage trip requests", color: brand.blue },
-            { title: "Schedule", desc: "View daily trip schedule", color: brand.green },
-            { title: "Reports", desc: "View trip reports and data", color: brand.gold },
-          ].map((item) => (
-            <div
-              key={item.title}
-              style={{
-                background: brand.white,
-                border: `1px solid ${brand.borderGray}`,
-                borderRadius: 8,
-                padding: "28px 24px",
-                cursor: "pointer",
-                transition: "border-color 0.2s, box-shadow 0.2s",
-                borderTop: `4px solid ${item.color}`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = item.color;
-                e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.07)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = brand.borderGray;
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              <h3 style={{
-                fontSize: 18,
-                fontWeight: 600,
-                color: brand.charcoal,
-                margin: "0 0 8px",
-              }}>{item.title}</h3>
-              <p style={{
-                fontSize: 14,
-                color: brand.medGray,
-                margin: 0,
-                lineHeight: 1.5,
-              }}>{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
+  const [_page, setPage] = useState<Page>("dashboard");
 
-  if (!user) return <LoginPage onLogin={setUser} />;
-  return <Dashboard user={user} onLogout={() => setUser(null)} />;
+  if (!user) return <LoginPage onLogin={(u) => { setUser(u); setPage("dashboard"); }} />;
+  return (
+    <DashboardPage
+      user={user}
+      onLogout={() => { setUser(null); setPage("dashboard"); }}
+      onNavigate={setPage}
+    />
+  );
 }

@@ -3,15 +3,15 @@ using Api.Models;
 
 namespace Api.DTOs;
 
-// Trip Data Transfer Objects
-// Original CRUD DTOs (CreateTripRequest, UpdateTripRequest, TripQueryParams, TripResponse)
-// were created by Gavin 
-//
-// Added by Angel:
-// - AssignTripRequest: for admins to assign a driver and vehicle to a trip 
-// - DenyTripRequest: for admins to deny a trip with a required reason 
-// - CancelTripRequest: for cancelling a trip with an optional reason
-// - CompleteTripRequest: for drivers to complete a trip with distance data 
+/// Trip Data Transfer Objects
+/// Original CRUD DTOs (CreateTripRequest, UpdateTripRequest, TripQueryParams, TripResponse)
+/// were created by Gavin 
+///
+/// Added by Angel:
+/// - AssignTripRequest: for admins to assign a driver and vehicle to a trip 
+/// - DenyTripRequest: for admins to deny a trip with a required reason 
+/// - CancelTripRequest: for cancelling a trip with an optional reason
+/// - CompleteTripRequest: for drivers to complete a trip with distance data 
 public class CreateTripRequest
 {
     public int? RiderId { get; set; }
@@ -62,7 +62,7 @@ public class UpdateTripRequest
     public string? Notes { get; set; }
 }
 
-// Query parameters for filtering trips (FR-06)
+/// Query parameters for filtering trips (FR-06)
 public class TripQueryParams
 {
     public TripStatus? Status { get; set; }
@@ -72,7 +72,7 @@ public class TripQueryParams
     public DateTime? Date { get; set; }
 }
 
-// What the server sends back
+/// What the server sends back
 public class TripResponse
 {
     public int Id { get; set; }
@@ -88,7 +88,7 @@ public class TripResponse
     public string? Notes { get; set; }
 }
 
-// Admin assigns a driver and vehicle to an approved trip (FR-03)
+/// Admin assigns a driver and vehicle to an approved trip (FR-03)
 public class AssignTripRequest
 {
     [Required]
@@ -98,7 +98,7 @@ public class AssignTripRequest
     public int VehicleId { get; set; }
 }
 
-// Admin denies a trip with a reason (FR-02)
+/// Admin denies a trip with a reason (FR-02)
 public class DenyTripRequest
 {
     [Required]
@@ -106,7 +106,7 @@ public class DenyTripRequest
     public string Reason { get; set; } = string.Empty;
 }
 
-// Optional reason for cancelling
+/// Optional reason for cancelling
 public class CancelTripRequest
 {
     [MaxLength(1000)]
