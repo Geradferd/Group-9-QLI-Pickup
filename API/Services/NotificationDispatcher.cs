@@ -14,7 +14,7 @@ namespace Api.Services;
 //   NoShow = admins notified
 //   Cancelled = requester and assigned driver notified
 
-// Automatically creates notifications when trip status changes (FR-19)
+// Automatically creates notifications when trip status changes 
 // Called by TripService after each status transition
 // Each status change notifies the right person with the right message
 public class NotificationDispatcher
