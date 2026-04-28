@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { apiCall, brand, font, type User, type TripResponse, type NotificationResponse } from "../lib/api";
 import { StatCard, QuickAction } from "../components/Cards";
-import { TodaysTrips, RecentTrips, TripStatusSummary, AuthorizedTrips } from "../components/TripWidgets";
+import { TodaysTrips, TripStatusSummary, AuthorizedTrips } from "../components/TripWidgets";
 import { NotificationsPanel } from "../components/NotificationsPanel";
 import NewTripModal from "../components/NewTripModal";
 
@@ -101,7 +101,7 @@ export default function Dashboard({
 
   // Computed stats
   const today        = new Date().toDateString();
-  const todayTrips   = trips.filter(t => new Date(t.scheduledPickupTime).toDateString() === today);
+  const todayTrips   = trips.filter(t => new Date(t.scheduledPickupTime.replace("T", " ")).toDateString() === today);
   const authorizedTrips = trips.filter(t => t.status?.toLowerCase() === "authorized");
   const completedToday = todayTrips.filter(t => t.status?.toLowerCase() === "completed");
   const activeTrips  = trips.filter(t => t.status?.toLowerCase() === "inprogress");
@@ -255,7 +255,6 @@ export default function Dashboard({
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <AuthorizedTrips trips={trips} loading={tripsLoading} user={user} onAction={() => loadData()} />
             <TodaysTrips trips={trips} loading={tripsLoading} user={user} onAction={() => loadData()} />
-            <RecentTrips trips={trips} loading={tripsLoading} user={user} onAction={() => loadData()} />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <NotificationsPanel notifications={notifications} loading={notifsLoading} onMarkRead={markRead} />

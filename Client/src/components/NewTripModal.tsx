@@ -69,7 +69,7 @@ export default function NewTripModal({ user, onClose, onCreated }: Props) {
         transportationTypeId: parseInt(transportationTypeId),
         pickupAddress: pickupAddress.trim(),
         destinationAddress: destinationAddress.trim(),
-        scheduledPickupTime: new Date(scheduledPickupTime).toISOString(),
+        scheduledPickupTime: scheduledPickupTime + ":00",
         passengerCount: parseInt(passengerCount),
         requiresWheelchair,
         notes: notes.trim() || null,

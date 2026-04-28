@@ -15,8 +15,8 @@ export default function TodaysTrips({ trips, loading, user, onAction }: Props) {
   const today = new Date().toDateString();
   const isAdmin = user?.role?.toLowerCase() === "admin";
   const todayTrips = trips
-    .filter(t => new Date(t.scheduledPickupTime).toDateString() === today)
-    .sort((a, b) => new Date(a.scheduledPickupTime).getTime() - new Date(b.scheduledPickupTime).getTime());
+    .filter(t => new Date(t.scheduledPickupTime.replace("T", " ")).toDateString() === today)
+    .sort((a, b) => new Date(a.scheduledPickupTime.replace("T", " ")).getTime() - new Date(b.scheduledPickupTime.replace("T", " ")).getTime());
 
   return (
     <div style={{ background: brand.white, border: `1px solid ${brand.borderGray}`, borderRadius: 12, overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
