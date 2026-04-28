@@ -1,4 +1,4 @@
-import { brand, font, statusColor } from "../lib/api";
+import { brand, font, statusColor, statusLabel } from "../lib/api";
 
 export function StatusBadge({ status }: { status: string }) {
   const c = statusColor(status);
@@ -16,7 +16,7 @@ export function StatusBadge({ status }: { status: string }) {
       fontFamily: font,
     }}>
       <span style={{ width: 7, height: 7, borderRadius: "50%", background: c.dot, flexShrink: 0 }} />
-      {status}
+      {statusLabel(status)}
     </span>
   );
 }
