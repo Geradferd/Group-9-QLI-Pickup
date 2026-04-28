@@ -94,12 +94,19 @@ export interface RiderResponse {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
+// Parse API date strings as LOCAL time (backend stores local, no timezone suffix)
+function parseLocal(dt: string): Date {
+  // "2026-04-28T10:00:00" → treat as local by replacing T with space
+  // which forces browsers to parse as local instead of UTC
+  return new Date(dt.replace("T", " "));
+}
+
 export function formatTime(dt: string) {
-  return new Date(dt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  return parseLocal(dt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
 export function formatDate(dt: string) {
-  return new Date(dt).toLocaleDateString([], {
+  return parseLocal(dt).toLocaleDateString([], {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -107,7 +114,7 @@ export function formatDate(dt: string) {
 }
 
 export function timeAgo(dt: string) {
-  const diff = (Date.now() - new Date(dt).getTime()) / 1000;
+  const diff = (Date.now() - parseLocal(dt).getTime()) / 1000;
   if (diff < 60) return "just now";
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
   if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
