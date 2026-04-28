@@ -29,6 +29,26 @@ export default function TripActionsModal({ trip, user, onClose, onDone }: Props)
   const isRider = role === "rider";
   const isDriver = role === "driver";
 
+  // When a rider cancels an authorized (awaiting acceptance) trip, call it "Deny"
+  const riderDenying = isRider && status === "authorized";
+
+  const getActionLabel = (a: Action) => {
+    if (a === "cancel" && riderDenying) return "Deny Ride";
+    return actionMeta[a].label;
+  };
+  const getActionIcon = (a: Action) => {
+    if (a === "cancel" && riderDenying) return "❌";
+    return actionMeta[a].icon;
+  };
+  const getActionColor = (a: Action) => {
+    if (a === "cancel" && riderDenying) return "#dc2626";
+    return actionMeta[a].color;
+  };
+  const getActionBg = (a: Action) => {
+    if (a === "cancel" && riderDenying) return "#fef2f2";
+    return actionMeta[a].bg;
+  };
+
   // Status flow: Awaiting Rider (Authorized) → Accepted (rider accepts) or Cancelled
   //              Accepted → InProgress → Completed (admin/driver)
   const availableActions: Action[] = [];
@@ -136,26 +156,21 @@ export default function TripActionsModal({ trip, user, onClose, onDone }: Props)
                 Choose an action:
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {availableActions.map(a => {
-                  const m = actionMeta[a];
-                  return (
+                {availableActions.map(a => (
                     <button key={a} onClick={() => setAction(a)} style={{
                       padding: "13px 18px", borderRadius: 10, cursor: "pointer",
-                      border: `1.5px solid ${m.color}30`, background: m.bg,
-                      color: m.color, fontWeight: 600, fontSize: 14, fontFamily: font,
+                      border: `1.5px solid ${getActionColor(a)}30`, background: getActionBg(a),
+                      color: getActionColor(a), fontWeight: 600, fontSize: 14, fontFamily: font,
                       textAlign: "left", display: "flex", alignItems: "center", gap: 10,
                       transition: "filter 0.15s",
                     }}
                     onMouseEnter={e => (e.currentTarget.style.filter = "brightness(0.96)")}
                     onMouseLeave={e => (e.currentTarget.style.filter = "none")}
                     >
-                      <span style={{ fontSize: 20 }}>
-                        {m.icon}
-                      </span>
-                      {m.label}
+                      <span style={{ fontSize: 20 }}>{getActionIcon(a)}</span>
+                      {getActionLabel(a)}
                     </button>
-                  );
-                })}
+                ))}
               </div>
             </>
           ) : (
@@ -167,11 +182,11 @@ export default function TripActionsModal({ trip, user, onClose, onDone }: Props)
               }}>← Back</button>
 
               <div style={{
-                padding: "14px 16px", borderRadius: 10, background: meta!.bg,
-                border: `1.5px solid ${meta!.color}30`, marginBottom: 18,
-                fontSize: 14, fontWeight: 600, color: meta!.color, fontFamily: font,
+                padding: "14px 16px", borderRadius: 10, background: getActionBg(action),
+                border: `1.5px solid ${getActionColor(action)}30`, marginBottom: 18,
+                fontSize: 14, fontWeight: 600, color: getActionColor(action), fontFamily: font,
               }}>
-                {meta!.label}
+                {getActionLabel(action)}
               </div>
 
               {meta!.needsReason && (
@@ -211,11 +226,11 @@ export default function TripActionsModal({ trip, user, onClose, onDone }: Props)
                 }}>Cancel</button>
                 <button onClick={handleSubmit} disabled={loading} style={{
                   flex: 2, padding: "11px", borderRadius: 8, border: "none",
-                  background: meta!.color, color: brand.white, fontSize: 14,
+                  background: getActionColor(action), color: brand.white, fontSize: 14,
                   fontWeight: 600, cursor: loading ? "not-allowed" : "pointer",
                   fontFamily: font, opacity: loading ? 0.7 : 1,
                 }}>
-                  {loading ? "Saving…" : meta!.label}
+                  {loading ? "Saving…" : getActionLabel(action)}
                 </button>
               </div>
             </>
