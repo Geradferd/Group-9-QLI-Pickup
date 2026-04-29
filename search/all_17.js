@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['v1_0',['V1',['../classEnum__Test.html#a633286511e19b996e97699d7dd2cd2a0ab0e5fe049a18d196b564c00bb241722f',1,'Enum_Test']]],
+  ['v2_1',['V2',['../classEnum__Test.html#a633286511e19b996e97699d7dd2cd2a0ae83b4255ceeedf0c49dd65d1eff8b750',1,'Enum_Test']]],
+  ['val1_2',['Val1',['../classEnum__Test.html#a8d096bc026dbb395991f02e3ca86eb1ca88efe763d7807db8a48f6e685277d7fd',1,'Enum_Test::Val1()'],['../classAutolink__Test.html#aeb611627c332d067bded1806b1bb45c2af70631e295bce280e74762d18af47a94',1,'Autolink_Test::Val1()']]],
+  ['val2_3',['Val2',['../classEnum__Test.html#a8d096bc026dbb395991f02e3ca86eb1ca284b56694c3f4513699fc86ea30527b0',1,'Enum_Test::Val2()'],['../classAutolink__Test.html#aeb611627c332d067bded1806b1bb45c2a7d760f44a8971559d108a609b8fb9b3b',1,'Autolink_Test::Val2()']]],
+  ['value_4',['value',['../classAfterdoc__Test.html#a9287a08830e5cdfd9c732bb7932694a0',1,'Afterdoc_Test']]],
+  ['var_5',['var',['../classAutolink__Test.html#a8de85603114bc9b9e53bd40764e9b499',1,'Autolink_Test']]],
+  ['vehicle_6',['Vehicle',['../classApi_1_1Models_1_1Vehicle.html',1,'Api.Models.Vehicle'],['../manual_8c.html#abe36c46f351fd80b9dd6401e7cce0b5d',1,'Vehicle():&#160;manual.c'],['../classApi_1_1Models_1_1Trip.html#afef171a6856825500fa6c3f9a4bb87de',1,'Api.Models.Trip.Vehicle()'],['../classApi_1_1DTOs_1_1TripRequest.html#a8703b53ca36c412dc4cf34806aa7952e',1,'Api.DTOs.TripRequest.Vehicle()'],['../structVehicle.html',1,'Vehicle']]],
+  ['vehicle_2ecs_7',['Vehicle.cs',['../Vehicle_8cs.html',1,'']]],
+  ['vehiclecontroller_8',['VehicleController',['../classApi_1_1Controllers_1_1VehicleController.html',1,'Api.Controllers.VehicleController'],['../classApi_1_1Controllers_1_1VehicleController.html#a9b7c587d358e456a4be7b956a93b0ba1',1,'Api.Controllers.VehicleController.VehicleController()']]],
+  ['vehiclecontroller_2ecs_9',['VehicleController.cs',['../VehicleController_8cs.html',1,'']]],
+  ['vehicledtos_2ecs_10',['VehicleDTOs.cs',['../VehicleDTOs_8cs.html',1,'']]],
+  ['vehicleid_11',['VehicleId',['../classApi_1_1DTOs_1_1TripRequest.html#a09e631286b25a81143e9fd212813b4cb',1,'Api.DTOs.TripRequest.VehicleId()'],['../classApi_1_1DTOs_1_1AssignTripRequest.html#aec73500993585f81676b93904b469989',1,'Api.DTOs.AssignTripRequest.VehicleId()'],['../classApi_1_1Models_1_1Trip.html#aa080fe9b2d38717470624cc591f965d5',1,'Api.Models.Trip.VehicleId()']]],
+  ['vehicleresponse_12',['VehicleResponse',['../classApi_1_1DTOs_1_1VehicleResponse.html',1,'Api::DTOs']]],
+  ['vehicles_13',['Vehicles',['../classApi_1_1Data_1_1AppDbContext.html#a0fcb4dcf8ccc0b7bcc67618aa9836139',1,'Api::Data::AppDbContext']]],
+  ['vehicleservice_14',['VehicleService',['../classApi_1_1Services_1_1VehicleService.html',1,'Api.Services.VehicleService'],['../classApi_1_1Services_1_1VehicleService.html#a240b6ba3a1808cb207a3696d0aa0c2c3',1,'Api.Services.VehicleService.VehicleService()']]],
+  ['vehicleservice_2ecs_15',['VehicleService.cs',['../VehicleService_8cs.html',1,'']]],
+  ['vehiclestart_16',['vehicleStart',['../structVehicle.html#a6891d3d28853bc3fdd075596dc6de9f8',1,'Vehicle']]],
+  ['vehiclestop_17',['vehicleStop',['../structVehicle.html#a4dcbcba43792dcd673a552b14479ab77',1,'Vehicle']]],
+  ['vin_18',['VIN',['../classApi_1_1DTOs_1_1CreateVehicleRequest.html#ad533a911607b7bb0654d825bd1b60214',1,'Api.DTOs.CreateVehicleRequest.VIN()'],['../classApi_1_1DTOs_1_1UpdateVehicleRequest.html#a7a5ec34c350996c819b3cc4e7874cf1e',1,'Api.DTOs.UpdateVehicleRequest.VIN()'],['../classApi_1_1DTOs_1_1VehicleResponse.html#a45ad7b28f55384f472941cb168699a3c',1,'Api.DTOs.VehicleResponse.VIN()'],['../classApi_1_1Models_1_1Vehicle.html#a6fac6a39dbe621a82fd679f602fd5331',1,'Api.Models.Vehicle.VIN()']]]
+];

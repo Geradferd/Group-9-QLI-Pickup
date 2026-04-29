@@ -1,0 +1,12 @@
+var searchData=
+[
+  ['delete_0',['Delete',['../classApi_1_1Controllers_1_1RiderController.html#a5cb4d968ee9aa50be81f12b41a4bf03a',1,'Api.Controllers.RiderController.Delete()'],['../classApi_1_1Controllers_1_1ScheduleController.html#a53d227f5cf90afa087788c9747816746',1,'Api.Controllers.ScheduleController.Delete()'],['../classApi_1_1Controllers_1_1TransportationTypesController.html#a1e93bcae69595ca0d52d40aa1efef780',1,'Api.Controllers.TransportationTypesController.Delete()'],['../classApi_1_1Controllers_1_1TripsController.html#a78364dee7fe8727d332b2751aa361393',1,'Api.Controllers.TripsController.Delete()'],['../classApi_1_1Controllers_1_1VehicleController.html#aba7e47fd42a41665f5e8b87a3ccc8666',1,'Api.Controllers.VehicleController.Delete()'],['../classApi_1_1Controllers_1_1DriverController.html#acee3834f347431fb4fbbe8098cf941ac',1,'Api.Controllers.DriverController.Delete()']]],
+  ['deny_1',['Deny',['../classApi_1_1Controllers_1_1TripsController.html#ac0519f27c9dc95b6a4ba6729bf5fc466',1,'Api::Controllers::TripsController']]],
+  ['denyasync_2',['DenyAsync',['../classApi_1_1Services_1_1TripService.html#adeb7a4aa71da39fee3d3d0ec7f500b31',1,'Api::Services::TripService']]],
+  ['dispatchasync_3',['DispatchAsync',['../classApi_1_1Services_1_1NotificationDispatcher.html#a45079a049061223393b4ee25b56643d5',1,'Api::Services::NotificationDispatcher']]],
+  ['down_4',['Down',['../classApi_1_1Migrations_1_1InitialCreate.html#adefbf9c2f0ae8ea6470b6b4442e44e7a',1,'Api.Migrations.InitialCreate.Down()'],['../classApi_1_1Migrations_1_1AddNewTables.html#aa425acdb1359c54aff40a02a2a5240f0',1,'Api.Migrations.AddNewTables.Down()'],['../classApi_1_1Migrations_1_1AddGPSAndNotifications.html#afaeea88c0451a733a513fd717ad02166',1,'Api.Migrations.AddGPSAndNotifications.Down()']]],
+  ['doxygenbanner_5',['doxygenBanner',['../javadoc-banner_8h.html#a7acf20d2740fdb0d6086abf738c8688f',1,'javadoc-banner.h']]],
+  ['drawrect_6',['drawRect',['../classOverload__Test.html#a840305784a1944b4de9826a1f4204365',1,'Overload_Test::drawRect(int, int, int, int)'],['../classOverload__Test.html#a7a613f50092cbc0ef830a818d9f3409c',1,'Overload_Test::drawRect(const Rect &amp;r)']]],
+  ['drivercontroller_7',['DriverController',['../classApi_1_1Controllers_1_1DriverController.html#a6144694a92fd5c04f52b81fade1397f2',1,'Api::Controllers::DriverController']]],
+  ['driverservice_8',['DriverService',['../classApi_1_1Services_1_1DriverService.html#a402574830fa9b8910305e4c8e3844075',1,'Api::Services::DriverService']]]
+];

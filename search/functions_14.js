@@ -1,0 +1,17 @@
+var searchData=
+[
+  ['ungroupedfunction_0',['ungroupedFunction',['../classMemgrp__Test.html#a8a3a4ac34b2e25696159ac420bd4bdc6',1,'Memgrp_Test']]],
+  ['unsubscribefromdriver_1',['UnsubscribeFromDriver',['../classApi_1_1Hubs_1_1GpsHub.html#a2bbcd2a5a3dbd9c5925bbda97a85234f',1,'Api::Hubs::GpsHub']]],
+  ['up_2',['Up',['../classApi_1_1Migrations_1_1InitialCreate.html#ad4e3214c2d455883dec8f02e97ce1d7b',1,'Api.Migrations.InitialCreate.Up()'],['../classApi_1_1Migrations_1_1AddNewTables.html#a952e2bc6f20830ecbf413208430ae4ba',1,'Api.Migrations.AddNewTables.Up()'],['../classApi_1_1Migrations_1_1AddGPSAndNotifications.html#a016ae2be0d38584c3fe5f0ed94a7f219',1,'Api.Migrations.AddGPSAndNotifications.Up()']]],
+  ['update_3',['Update',['../classApi_1_1Controllers_1_1DriverController.html#a859b7c1134287206116b505997bfcb93',1,'Api.Controllers.DriverController.Update()'],['../classApi_1_1Controllers_1_1RiderController.html#ac2952a1b9053e8e953176dadf636f17b',1,'Api.Controllers.RiderController.Update()'],['../classApi_1_1Controllers_1_1TransportationTypesController.html#aeb45bb51470e451ffc3bf43c06b761d3',1,'Api.Controllers.TransportationTypesController.Update()'],['../classApi_1_1Controllers_1_1TripsController.html#a094827e1ddd71c5724b44b07c8b81e22',1,'Api.Controllers.TripsController.Update()'],['../classApi_1_1Controllers_1_1VehicleController.html#a9f299e8f41f2f28a9ed06fe147a0ea0f',1,'Api.Controllers.VehicleController.Update()']]],
+  ['updateasync_4',['UpdateAsync',['../classApi_1_1Services_1_1TransportationTypeService.html#a51d78e1a2308651e3f9b88ed414feb87',1,'Api.Services.TransportationTypeService.UpdateAsync()'],['../classApi_1_1Services_1_1VehicleService.html#a26dbb3317ab38ee9eef99127a3a779c5',1,'Api.Services.VehicleService.UpdateAsync()'],['../classApi_1_1Services_1_1TripService.html#af92cf9f120f1924b8ca3992508a1a4a9',1,'Api.Services.TripService.UpdateAsync()'],['../classApi_1_1Services_1_1RiderService.html#a5e3227ac8274363689492d06f4686f9b',1,'Api.Services.RiderService.UpdateAsync()'],['../classApi_1_1Services_1_1DriverService.html#a177b7d3744b5b249ebfeca87511b5744',1,'Api.Services.DriverService.UpdateAsync()']]],
+  ['updateoperatinghours_5',['UpdateOperatingHours',['../classApi_1_1Controllers_1_1ScheduleController.html#a227ea68843b194dd9d2e740e8a721379',1,'Api::Controllers::ScheduleController']]],
+  ['updateoperatinghoursasync_6',['UpdateOperatingHoursAsync',['../classApi_1_1Services_1_1ScheduleService.html#a447d34feacdfdac132a5d480977804b5',1,'Api::Services::ScheduleService']]],
+  ['updatespecialdates_7',['UpdateSpecialDates',['../classApi_1_1Controllers_1_1ScheduleController.html#abe55e1171fab0ef2fa4ea4f921250232',1,'Api::Controllers::ScheduleController']]],
+  ['updatespecialschedulesasync_8',['UpdateSpecialSchedulesAsync',['../classApi_1_1Services_1_1ScheduleService.html#a9b24e6ece86b01a1a743931a8428d844',1,'Api::Services::ScheduleService']]],
+  ['useauthentication_9',['UseAuthentication',['../Program_8cs.html#a6435d8beeff4999dc0b0c6d60a86a4e2',1,'Program.cs']]],
+  ['useauthorization_10',['UseAuthorization',['../Program_8cs.html#af6f72d752b2e73aa0292f74bd13237ab',1,'Program.cs']]],
+  ['usecors_11',['UseCors',['../Program_8cs.html#a0a7b080f8fbf578227b41f824d2bcec5',1,'Program.cs']]],
+  ['usedefaultfiles_12',['UseDefaultFiles',['../Program_8cs.html#ad5943c17341260006d5d051e36aa94c9',1,'Program.cs']]],
+  ['usestaticfiles_13',['UseStaticFiles',['../Program_8cs.html#a906a3ce545279a7a73941f1d7b64d7cf',1,'Program.cs']]]
+];
