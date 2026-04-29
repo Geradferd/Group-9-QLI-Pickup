@@ -1,6 +1,6 @@
 # Group-9-QLI-Pickup
 
-## What is this application?
+## What is this application? 
 
 QLIFT is a pickup coordination system for QLI (Quality Living, Inc.) that helps manage transportation scheduling between clients and drivers.
 
