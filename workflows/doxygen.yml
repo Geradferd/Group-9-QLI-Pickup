@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main  # Standard target branch for documentation updates
+  workflow_dispatch:  # <--- Add this line here
 
 permissions:
   contents: write  # Mandatory for the action to create/update the gh-pages branch
