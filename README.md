@@ -15,7 +15,7 @@ QLIFT is a pickup coordination system for QLI (Quality Living, Inc.) that helps 
 ```
 2.  Open `API/appsettings.json` and replace the password with your local MySQL root password
 3.  Run the backend:
-```bash
+```bash 
    cd API
    dotnet restore
    dotnet ef database update
