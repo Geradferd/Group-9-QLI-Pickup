@@ -248,6 +248,55 @@ Real-time location tracking system for drivers and clients:
    - Update the `@token` variable with your JWT token
    - Click "Send Request" above each test
 
+---
+
+## Automated Tests (NUnit)
+
+The project includes a suite of automated **NUnit** tests for the core backend business logic, located in the `Api.Tests/` project.
+
+### What is tested
+
+| Category | Tests |
+|---|---|
+| **Trip Creation** | New trips start as `Authorized`; audit history is recorded on creation |
+| **Valid Transitions** | Accept → Assign → Start → Complete, NoShow, Cancel from valid stages |
+| **Invalid Transitions** | Accept from Scheduled, Start from Authorized, Complete before InProgress, Cancel after terminal status |
+| **Soft Delete** | Deleted trips are hidden from `GetAll` queries |
+| **Update / Lock** | Fields update correctly; locked trips (InProgress+) cannot be modified |
+| **Audit History** | Full lifecycle records all status changes in `TripStatusHistory` |
+
+### How to run the tests
+
+No database or running server required — tests use an **in-memory EF Core database**.
+
+```bash
+# From the repo root
+dotnet test Api.Tests/Api.Tests.csproj
+```
+
+To see individual test results:
+
+```bash
+dotnet test Api.Tests/Api.Tests.csproj --logger "console;verbosity=detailed"
+```
+
+### Test project structure
+
+```
+Api.Tests/
+├── Helpers/
+│   └── TestDbFactory.cs      # Creates isolated in-memory DB per test; seeds required FK rows
+└── TripStateMachineTests.cs  # 18 NUnit tests for TripService state machine
+```
+
+### Key design decisions
+
+- **Isolated per test** — each `[SetUp]` creates a brand-new in-memory database, so tests never affect each other.
+- **No mocking required** — `NotificationDispatcher` and `TripService` run against the real in-memory EF context, just like production code.
+- **Covers the state machine** — the `ValidTransitions` dictionary in `TripService` is the most critical business logic; every valid and invalid path is exercised.
+
+---
+
 ## Branches
 
  - Blake-demo (Notifications API Endpoints)
