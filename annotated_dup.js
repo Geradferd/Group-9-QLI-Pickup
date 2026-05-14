@@ -92,6 +92,9 @@ var annotated_dup =
         [ "TransportationTypeService", "classApi_1_1Services_1_1TransportationTypeService.html", "classApi_1_1Services_1_1TransportationTypeService" ],
         [ "TripService", "classApi_1_1Services_1_1TripService.html", "classApi_1_1Services_1_1TripService" ],
         [ "VehicleService", "classApi_1_1Services_1_1VehicleService.html", "classApi_1_1Services_1_1VehicleService" ]
+      ] ],
+      [ "Tests", "namespaceApi_1_1Tests.html", [
+        [ "TripStateMachineTests", "classApi_1_1Tests_1_1TripStateMachineTests.html", "classApi_1_1Tests_1_1TripStateMachineTests" ]
       ] ]
     ] ],
     [ "docstring", "namespacedocstring.html", [

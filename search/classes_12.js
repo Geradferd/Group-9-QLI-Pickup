@@ -14,7 +14,8 @@ var searchData=
   ['tripresponse_11',['TripResponse',['../classApi_1_1DTOs_1_1TripResponse.html',1,'Api::DTOs']]],
   ['tripscontroller_12',['TripsController',['../classApi_1_1Controllers_1_1TripsController.html',1,'Api::Controllers']]],
   ['tripservice_13',['TripService',['../classApi_1_1Services_1_1TripService.html',1,'Api::Services']]],
-  ['tripstatushistory_14',['TripStatusHistory',['../classApi_1_1Models_1_1TripStatusHistory.html',1,'Api::Models']]],
-  ['tripstatushistorycontroller_15',['TripStatusHistoryController',['../classApi_1_1Controllers_1_1TripStatusHistoryController.html',1,'Api::Controllers']]],
-  ['truck_16',['Truck',['../structTruck.html',1,'']]]
+  ['tripstatemachinetests_14',['TripStateMachineTests',['../classApi_1_1Tests_1_1TripStateMachineTests.html',1,'Api::Tests']]],
+  ['tripstatushistory_15',['TripStatusHistory',['../classApi_1_1Models_1_1TripStatusHistory.html',1,'Api::Models']]],
+  ['tripstatushistorycontroller_16',['TripStatusHistoryController',['../classApi_1_1Controllers_1_1TripStatusHistoryController.html',1,'Api::Controllers']]],
+  ['truck_17',['Truck',['../structTruck.html',1,'']]]
 ];

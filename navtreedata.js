@@ -59,13 +59,19 @@ var NAVTREE =
         [ "Health Check", "md_README.html#autotoc_md43", null ]
       ] ],
       [ "How to Test the Transportation Types API", "md_README.html#autotoc_md44", null ],
-      [ "Branches", "md_README.html#autotoc_md45", null ],
-      [ "Release Notes — Login Page & Dashboard (April 16, 2026)", "md_README.html#autotoc_md47", [
-        [ "Overview", "md_README.html#autotoc_md48", null ],
-        [ "Login Page", "md_README.html#autotoc_md50", [
-          [ "How It Works", "md_README.html#autotoc_md51", null ],
-          [ "Features", "md_README.html#autotoc_md52", null ],
-          [ "How to Use", "md_README.html#autotoc_md53", null ]
+      [ "Automated Tests (NUnit)", "md_README.html#autotoc_md46", [
+        [ "What is tested", "md_README.html#autotoc_md47", null ],
+        [ "How to run the tests", "md_README.html#autotoc_md48", null ],
+        [ "Test project structure", "md_README.html#autotoc_md49", null ],
+        [ "Key design decisions", "md_README.html#autotoc_md50", null ]
+      ] ],
+      [ "Branches", "md_README.html#autotoc_md52", null ],
+      [ "Release Notes — Login Page & Dashboard (April 16, 2026)", "md_README.html#autotoc_md54", [
+        [ "Overview", "md_README.html#autotoc_md55", null ],
+        [ "Login Page", "md_README.html#autotoc_md57", [
+          [ "How It Works", "md_README.html#autotoc_md58", null ],
+          [ "Features", "md_README.html#autotoc_md59", null ],
+          [ "How to Use", "md_README.html#autotoc_md60", null ]
         ] ]
       ] ]
     ] ],
@@ -86,7 +92,7 @@ var NAVTREE =
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", null ],
+        [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ],
         [ "Enumerations", "functions_enum.html", null ],
         [ "Enumerator", "functions_eval.html", null ],
@@ -113,13 +119,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "20260304065158__InitialCreate_8Designer_8cs.html",
-"classApi_1_1Controllers_1_1TransportationTypesController.html#a1e93bcae69595ca0d52d40aa1efef780",
-"classApi_1_1DTOs_1_1DriverResponse.html#ab6cd99ec479e300dd2cc7647f754c8f6",
-"classApi_1_1DTOs_1_1TripRequest.html#ae229fa5a68d8985837d399303430193d",
-"classApi_1_1Models_1_1Driver.html#ac4ebe1e84b1c5c6ec700ca6c93ef6f63",
-"classApi_1_1Models_1_1User.html#a8c31ea3044c4d8514db29d1c4924a3ca",
-"classSomeNiceClass.html",
-"namespaceApi_1_1Models.html#aea005b2ba33cc873eafc48de8983deb1aa149e85a44aeec9140e92733d9ed694e"
+"classApi_1_1Controllers_1_1TransportationTypesController.html#a15a11c2791c24e4e9bc5a1f8806a3343",
+"classApi_1_1DTOs_1_1DriverResponse.html#a9560a427e4f11cc3ff3d6afe220040aa",
+"classApi_1_1DTOs_1_1TripRequest.html#ae1a7304d8e0b35d1cf8fc326c3524c4f",
+"classApi_1_1Models_1_1Driver.html#ac202935055f523fa7fdffcfa64da6ddd",
+"classApi_1_1Models_1_1User.html#a825400ac0d7946f06d6084e97a0ff2c2",
+"classEnum__Test.html#a8d096bc026dbb395991f02e3ca86eb1ca284b56694c3f4513699fc86ea30527b0",
+"md_README.html#autotoc_md32"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

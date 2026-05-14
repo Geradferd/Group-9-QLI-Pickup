@@ -342,7 +342,50 @@ How to Test the Transportation Types API</h1>
 </ul>
 </li>
 </ol>
-<h1><a class="anchor" id="autotoc_md45"></a>
+<hr  />
+<h1><a class="anchor" id="autotoc_md46"></a>
+Automated Tests (NUnit)</h1>
+<p>The project includes a suite of automated <b>NUnit</b> tests for the core backend business logic, located in the <code><a class="el" href="namespaceApi_1_1Tests.html">Api.Tests</a>/</code> project.</p>
+<h2><a class="anchor" id="autotoc_md47"></a>
+What is tested</h2>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Category   </th><th class="markdownTableHeadNone">Tests    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>Trip Creation</b>   </td><td class="markdownTableBodyNone">New trips start as <code>Authorized</code>; audit history is recorded on creation    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>Valid Transitions</b>   </td><td class="markdownTableBodyNone">Accept → Assign → Start → Complete, NoShow, Cancel from valid stages    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>Invalid Transitions</b>   </td><td class="markdownTableBodyNone">Accept from Scheduled, Start from Authorized, Complete before InProgress, Cancel after terminal status    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>Soft Delete</b>   </td><td class="markdownTableBodyNone">Deleted trips are hidden from <code>GetAll</code> queries    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>Update / Lock</b>   </td><td class="markdownTableBodyNone">Fields update correctly; locked trips (InProgress+) cannot be modified    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>Audit History</b>   </td><td class="markdownTableBodyNone">Full lifecycle records all status changes in <code>TripStatusHistory</code>   </td></tr>
+</table>
+<h2><a class="anchor" id="autotoc_md48"></a>
+How to run the tests</h2>
+<p>No database or running server required — tests use an <b>in-memory EF Core database</b>.</p>
+<div class="fragment"><div class="line"># From the repo root</div>
+<div class="line">dotnet test Api.Tests/Api.Tests.csproj</div>
+</div><!-- fragment --><p>To see individual test results:</p>
+<div class="fragment"><div class="line">dotnet test Api.Tests/Api.Tests.csproj --logger &quot;console;verbosity=detailed&quot;</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md49"></a>
+Test project structure</h2>
+<div class="fragment"><div class="line">Api.Tests/</div>
+<div class="line">├── Helpers/</div>
+<div class="line">│   └── TestDbFactory.cs      # Creates isolated in-memory DB per test; seeds required FK rows</div>
+<div class="line">└── TripStateMachineTests.cs  # 18 NUnit tests for TripService state machine</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md50"></a>
+Key design decisions</h2>
+<ul>
+<li><b>Isolated per test</b> — each <code>[SetUp]</code> creates a brand-new in-memory database, so tests never affect each other.</li>
+<li><b>No mocking required</b> — <code>NotificationDispatcher</code> and <code>TripService</code> run against the real in-memory EF context, just like production code.</li>
+<li><b>Covers the state machine</b> — the <code>ValidTransitions</code> dictionary in <code>TripService</code> is the most critical business logic; every valid and invalid path is exercised.</li>
+</ul>
+<hr  />
+<h1><a class="anchor" id="autotoc_md52"></a>
 Branches</h1>
 <ul>
 <li>Blake-demo (Notifications API Endpoints)</li>
@@ -352,16 +395,16 @@ Branches</h1>
 <li>Matthew-demo (GPS Tracking API Endpoint)</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md47"></a>
+<h1><a class="anchor" id="autotoc_md54"></a>
 Release Notes — Login Page &amp; Dashboard (April 16, 2026)</h1>
-<h2><a class="anchor" id="autotoc_md48"></a>
+<h2><a class="anchor" id="autotoc_md55"></a>
 Overview</h2>
 <p>This release introduces a fully functional <b>Login Page</b> and a new <b>Dashboard Page</b> as the authenticated landing screen for the QLIFT frontend.</p>
 <hr  />
-<h2><a class="anchor" id="autotoc_md50"></a>
+<h2><a class="anchor" id="autotoc_md57"></a>
 Login Page</h2>
 <p><b>File:</b> <code>Client/src/App.tsx</code> — <code>LoginPage</code> component</p>
-<h3><a class="anchor" id="autotoc_md51"></a>
+<h3><a class="anchor" id="autotoc_md58"></a>
 How It Works</h3>
 <ol type="1">
 <li>The user is presented with the login form on first load (or after signing out).</li>
@@ -371,7 +414,7 @@ How It Works</h3>
 <li>The token and user info are stored in React state. The app then redirects to the <b>Dashboard Page</b>.</li>
 <li>If the credentials are invalid or the request fails, a red error banner is shown inline.</li>
 </ol>
-<h3><a class="anchor" id="autotoc_md52"></a>
+<h3><a class="anchor" id="autotoc_md59"></a>
 Features</h3>
 <ul>
 <li><b>Auto-focus</b> on the email field when the page loads</li>
@@ -382,7 +425,7 @@ Features</h3>
 <li><b>Keyboard accessible</b> — the form submits on <code>Enter</code></li>
 <li><b>Brand styling</b> — QLI logo, color-coded accent bar, and consistent typography</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md53"></a>
+<h3><a class="anchor" id="autotoc_md60"></a>
 How to Use</h3>
 <ol type="1">
 <li>Make sure both the API and frontend are running (see <b>Development Mode</b> above).</li>

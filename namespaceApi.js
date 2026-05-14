@@ -6,5 +6,6 @@ var namespaceApi =
     [ "Hubs", "namespaceApi_1_1Hubs.html", "namespaceApi_1_1Hubs" ],
     [ "Migrations", "namespaceApi_1_1Migrations.html", "namespaceApi_1_1Migrations" ],
     [ "Models", "namespaceApi_1_1Models.html", "namespaceApi_1_1Models" ],
-    [ "Services", "namespaceApi_1_1Services.html", "namespaceApi_1_1Services" ]
+    [ "Services", "namespaceApi_1_1Services.html", "namespaceApi_1_1Services" ],
+    [ "Tests", "namespaceApi_1_1Tests.html", "namespaceApi_1_1Tests" ]
 ];

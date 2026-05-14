@@ -119,6 +119,7 @@ var hierarchy =
     [ "Api.DTOs.TripRequest", "classApi_1_1DTOs_1_1TripRequest.html", null ],
     [ "Api.DTOs.TripResponse", "classApi_1_1DTOs_1_1TripResponse.html", null ],
     [ "Api.Services.TripService", "classApi_1_1Services_1_1TripService.html", null ],
+    [ "Api.Tests.TripStateMachineTests", "classApi_1_1Tests_1_1TripStateMachineTests.html", null ],
     [ "Api.Models.TripStatusHistory", "classApi_1_1Models_1_1TripStatusHistory.html", null ],
     [ "Api.DTOs.UpdateDriverRequest", "classApi_1_1DTOs_1_1UpdateDriverRequest.html", null ],
     [ "Api.DTOs.UpdateOperatingHoursRequest", "classApi_1_1DTOs_1_1UpdateOperatingHoursRequest.html", null ],
